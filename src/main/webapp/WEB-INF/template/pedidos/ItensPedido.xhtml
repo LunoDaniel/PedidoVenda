@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:dataTable var="item" id="tabelaItens" value="1111">
+		<p:column headerText="SKU" style="text-align: center; width: 100px;">
+			<p:inputText size="8"/>
+		</p:column>
+		<p:column headerText="Produto" >
+			<p:autoComplete styleClass="produto-tabela"/>
+		</p:column>
+		<p:column headerText="Valor Unitário"
+			style="text-align: right; width:100px;">
+			<h:outputText />
+		</p:column>
+		<p:column headerText="Quantidade"
+			style="text-align: center; width:100px;">
+			<p:inputText size="8" />
+		</p:column>
+		<p:column headerText="Estoque"
+			style="text-align: center; width:100px;">
+			<h:outputText />
+		</p:column>
+		<p:column headerText="Valor Total"
+			style="text-align: right; width:100px;">
+			<h:outputText />
+		</p:column>
+		
+		<p:columnGroup type="footer">
+			<p:row>
+				<p:column colspan="5" footerText="SubTotal" style="text-align: right;"/>
+				<p:column footerText="" style="text-align"></p:column>
+			</p:row>
+		</p:columnGroup>
+	</p:dataTable>
+	
+</ui:composition>

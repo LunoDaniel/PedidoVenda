@@ -1,0 +1,66 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Pesquisa Produto</ui:define>
+	<ui:define name="corpo">
+		<p:messages autoUpdate="true" closable="true" />
+		<h:form>
+			<h1>Pesquisa Produto</h1>
+			<p:toolbar style="margin-top:20px;">
+				<p:toolbarGroup>
+					<p:button value="Pesquisar" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button value="Novo" outcome="/produtos/CadastroProduto" />
+				</p:toolbarGroup>
+			</p:toolbar>
+			<p:panelGrid columns="2" id="painel"
+				style="width: 100%; margin-top:20px;" columnClasses="rotulo, campo">
+				<p:outputLabel value="SKU" for="sku" />
+				<p:inputText id="sku" size="20" maxlength="20" />
+
+				<p:outputLabel value="Nome" for="nome" />
+				<p:inputText id="nome" size="60" maxlength="80" />
+			</p:panelGrid>
+			<p:dataTable id="produtosTable" var="produto"
+				emptyMessage="Nenhum Produto Encontrado." style="margin-top:20px"
+				rows="20" paginator="true" paginatorAlwaysVisible="false"
+				paginatorPosition="bottom" value="1111">
+				<p:column headerText="SKU" style="text-align: center;" width="100px">
+					<h:outputText />
+				</p:column>
+				<p:column headerText="Nome">
+					<h:outputText />
+				</p:column>
+				<p:column headerText="Categoria" style="text-align: center;"
+					width="250px">
+					<h:outputText />
+				</p:column>
+				<p:column headerText="Valor Unitário" style="text-align: right;"
+					width="120px">
+					<h:outputText />
+				</p:column>
+				<p:column headerText="Estoque" style="text-align: center;"
+					width="100px">
+					<h:outputText />
+				</p:column>
+				<p:column headerText="Ação" style="text-align: center;"
+					width="100px">
+					<p:button icon="ui-icon-pencil" title="Editar" />
+					<p:commandButton icon="ui-icon-trash" oncomplete="confirmacaoExclusao.show()" title="Excluir" />
+				</p:column>
+			</p:dataTable>
+			<p:confirmDialog header="Exclusão de Produto"
+				message="Tem certeza que deseja Excluir este Produto?"
+				widgetVar="confirmacaoExclusao">
+				<p:commandButton value="Sim" update="produtosTable"
+					oncomplete="confirmacaoExclusao.hide()"  />
+				<p:button value="Não" oncomplete="confirmacaoExclusao.hide(); return false;" />
+			</p:confirmDialog>
+		</h:form>
+	</ui:define>
+</ui:composition>
