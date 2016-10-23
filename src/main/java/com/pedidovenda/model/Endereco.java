@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 @Entity
 @Table(name="endereco")
 public class Endereco implements Serializable{
@@ -35,6 +37,7 @@ public class Endereco implements Serializable{
 		this.id = id;
 	}
 	
+	@NotBlank
 	@Column(nullable=false, length=155)
 	public String getLogradouro() {
 		return logradouro;
@@ -44,6 +47,7 @@ public class Endereco implements Serializable{
 		this.logradouro = logradouro;
 	}
 
+	@NotBlank
 	@Column(nullable=false, length=20)
 	public String getNumero() {
 		return numero;
@@ -62,6 +66,7 @@ public class Endereco implements Serializable{
 		this.complemento = complemento;
 	}
 
+	@NotBlank
 	@Column(nullable=false, length=60)
 	public String getCidade() {
 		return cidade;
@@ -71,6 +76,7 @@ public class Endereco implements Serializable{
 		this.cidade = cidade;
 	}
 
+	@NotBlank
 	@Column(nullable=false, length=60)
 	public String getUf() {
 		return uf;
@@ -80,6 +86,7 @@ public class Endereco implements Serializable{
 		this.uf = uf;
 	}
 
+	@NotBlank
 	@Column(nullable=false, length=12)
 	public String getCep() {
 		return cep;

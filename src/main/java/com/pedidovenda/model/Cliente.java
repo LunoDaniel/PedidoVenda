@@ -9,14 +9,17 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name="cliente")
@@ -30,7 +33,7 @@ public class Cliente implements Serializable{
 	private String email;
 	private String documentoReceitaFederal;
 
-	@OneToMany(mappedBy="cliente", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy = "cliente", cascade=CascadeType.ALL, fetch=FetchType.LAZY, targetEntity=Endereco.class)
 	public List<Endereco> getEndereco() {
 		return endereco;
 	}
@@ -38,6 +41,7 @@ public class Cliente implements Serializable{
 		this.endereco = endereco;
 	}
 	
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(nullable=false, length=16)
 	public TipoPessoa getTipoPessoa() {
@@ -47,8 +51,8 @@ public class Cliente implements Serializable{
 		this.tipoPessoa = tipoPessoa;
 	}
 	
+	@NotBlank
 	@Column(nullable= false, length=100)
-	@NotNull
 	public String getNome() {
 		return nome;
 	}
@@ -56,9 +60,9 @@ public class Cliente implements Serializable{
 		this.nome = nome;
 	}
 	
+	@NotBlank
 	@Column(nullable=false, length=255)
 	@Email
-	@NotNull
 	public String getEmail() {
 		return email;
 	}
@@ -66,6 +70,7 @@ public class Cliente implements Serializable{
 		this.email = email;
 	}
 	
+	@NotNull @NotBlank
 	@Column(name="doc_receita_federal", length=16, nullable=false)
 	public String getDocumentoReceitaFederal() {
 		return documentoReceitaFederal;
@@ -105,5 +110,12 @@ public class Cliente implements Serializable{
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}	 
+	}	
+	
+
+	@Transient
+	public boolean isPessoaFisica(){
+		return  ((this.getTipoPessoa() != null) ?
+			 this.tipoPessoa.equals(TipoPessoa.FISICA) : false);
+	}
 }

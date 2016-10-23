@@ -26,7 +26,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="pedido")
+@Table(name = "pedido")
 public class Pedido implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -34,19 +34,18 @@ public class Pedido implements Serializable {
 	private Cliente cliente;
 	private Usuario usuario;
 	private EnderecoEntrega enderecoEntrega;
-	private StatusPedido status;
+	private StatusPedido status = StatusPedido.ORCAMENTO;
 	private FormaPagamento formaPagamento;
 	private Date dataCriacao;
 	private Date dataEntrega;
 	private String observacao;
-	private BigDecimal valorFrete;
-	private BigDecimal valorDesconto;
-	private BigDecimal valorTotal;
+	private BigDecimal valorFrete = BigDecimal.ZERO;
+	private BigDecimal valorDesconto = BigDecimal.ZERO;
+	private BigDecimal valorTotal = BigDecimal.ZERO;
 	private List<ItemPedido> itens = new ArrayList<>();
 
-	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId() {
 		return id;
 	}
@@ -57,7 +56,7 @@ public class Pedido implements Serializable {
 
 	@NotNull
 	@ManyToOne
-	@JoinColumn(name="cliente_id", nullable=false)
+	@JoinColumn(name = "cliente_id", nullable = false)
 	public Cliente getCliente() {
 		return cliente;
 	}
@@ -88,7 +87,7 @@ public class Pedido implements Serializable {
 
 	@NotNull
 	@Enumerated(EnumType.STRING)
-	@Column(nullable=false, length=24)
+	@Column(nullable = false, length = 24)
 	public StatusPedido getStatus() {
 		return status;
 	}
@@ -96,10 +95,10 @@ public class Pedido implements Serializable {
 	public void setStatus(StatusPedido status) {
 		this.status = status;
 	}
-	
+
 	@NotNull
 	@Enumerated(EnumType.STRING)
-	@Column(name="forma_pagamento", nullable=false, length=20)
+	@Column(name = "forma_pagamento", nullable = false, length = 20)
 	public FormaPagamento getFormaPagamento() {
 		return formaPagamento;
 	}
@@ -110,7 +109,7 @@ public class Pedido implements Serializable {
 
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="data_criacao", nullable=false)
+	@Column(name = "data_criacao", nullable = false)
 	public Date getDataCriacao() {
 		return dataCriacao;
 	}
@@ -119,6 +118,7 @@ public class Pedido implements Serializable {
 		this.dataCriacao = dataCriacao;
 	}
 
+	@NotNull
 	@Column(columnDefinition = "text")
 	public String getObservacao() {
 		return observacao;
@@ -129,7 +129,7 @@ public class Pedido implements Serializable {
 	}
 
 	@NotNull
-	@Column(name="valor_frete", nullable=false, precision=10, scale=2)
+	@Column(name = "valor_frete", nullable = false, precision = 10, scale = 2)
 	public BigDecimal getValorFrete() {
 		return valorFrete;
 	}
@@ -139,7 +139,7 @@ public class Pedido implements Serializable {
 	}
 
 	@NotNull
-	@Column(name="valor_desconto", nullable=false, precision=10, scale=2)
+	@Column(name = "valor_desconto", nullable = false, precision = 10, scale = 2)
 	public BigDecimal getValorDesconto() {
 		return valorDesconto;
 	}
@@ -149,7 +149,7 @@ public class Pedido implements Serializable {
 	}
 
 	@NotNull
-	@Column(name="valor_total", nullable=false, precision=10, scale=2)
+	@Column(name = "valor_total", nullable = false, precision = 10, scale = 2)
 	public BigDecimal getValorTotal() {
 		return valorTotal;
 	}
@@ -166,10 +166,10 @@ public class Pedido implements Serializable {
 	public void setItens(List<ItemPedido> itens) {
 		this.itens = itens;
 	}
-	
+
 	@NotNull
 	@Temporal(TemporalType.DATE)
-	@Column(name="data_entrega", nullable=false)
+	@Column(name = "data_entrega", nullable = false)
 	public Date getDataEntrega() {
 		return dataEntrega;
 	}
@@ -177,12 +177,12 @@ public class Pedido implements Serializable {
 	public void setDataEntrega(Date dataEntrega) {
 		this.dataEntrega = dataEntrega;
 	}
-	
+
 	@Transient
 	public boolean isNovo() {
 		return getId() == null;
 	}
-	
+
 	@Transient
 	public boolean isExistente() {
 		return !isNovo();
@@ -211,6 +211,101 @@ public class Pedido implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	@Transient
+	public BigDecimal getValorSubtotal() {
+		return this.getValorTotal().subtract(this.getValorFrete()).add(this.getValorDesconto());
+	}
+
+	public void recalcularValorTotal() {
+		BigDecimal total = BigDecimal.ZERO;
+
+		total = total.add(this.getValorFrete()).subtract(this.getValorDesconto());
+
+		for (ItemPedido item : this.getItens()) {
+			if (item.getProduto() != null && item.getProduto().getId() != null) {
+				total = total.add(item.getValorTotal());
+			}
+		}
+
+		this.setValorTotal(total);
+	}
+
+	@Transient
+	public void adicionarItemVazio() {
+		if (this.isOrcamento()) {
+			Produto produto = new Produto();
+
+			ItemPedido itemPedido = new ItemPedido();
+			itemPedido.setProduto(produto);
+			itemPedido.setPedido(this);
+
+			this.getItens().add(0, itemPedido);
+		}
+	}
+
+	@Transient
+	public boolean isOrcamento() {
+		return StatusPedido.ORCAMENTO.equals(this.getStatus());
+	}
+
+	public void removerItemVazio() {
+		ItemPedido primeiroItem = this.getItens().get(0);
+
+		if (primeiroItem != null && primeiroItem.getProduto().getId() == null) {
+			this.getItens().remove(0);
+		}
+	}
+
+	@Transient
+	public boolean isValorTotalNegativo() {
+		return this.getValorTotal().compareTo(BigDecimal.ZERO) < 0;
+	}
+
+	@Transient
+	public boolean isEmitido() {
+		return StatusPedido.EMITIDO.equals(this.getStatus());
+	}
+	
+	@Transient
+	public boolean isNaoEmissivel() {
+		return !this.isEmissivel();
+	}
+
+	@Transient
+	private boolean isEmissivel() {
+		return this.isExistente() && this.isOrcamento();
+	}
+	
+	@Transient
+	public boolean isNaoCancelavel() {
+		return !isCancelavel();
+	}
+
+	@Transient
+	private boolean isCancelavel() {
+		return this.isExistente() && !this.isCancelado();
+	}
+
+	@Transient
+	private boolean isCancelado() {
+		return StatusPedido.CANCELADO.equals(this.getStatus());
+	}
+
+	@Transient
+	public boolean isNaoAlteravel() {
+		return !isAlteravel();
+	}
+
+	@Transient
+	private boolean isAlteravel() {
+		return this.isOrcamento();
+	}
+	
+	@Transient
+	public boolean isEmailNaoEnviavel(){
+		return this.isCancelado() || this.isNovo();
 	}
 
 }

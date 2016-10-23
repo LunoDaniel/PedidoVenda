@@ -5,7 +5,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
 
-    <ui:define name="titulo">Novo Produto</ui:define>
+    <ui:define name="titulo">#{cadastroProdutoBean.editando ? 'Edição de Produto' : 'Novo Produto'}</ui:define>
 
     <ui:define name="corpo">
         <f:metadata>
@@ -14,7 +14,7 @@
         </f:metadata>
 
         <h:form>
-            <h1>Novo Produto</h1>
+            <h1>#{cadastroProdutoBean.editando ? 'Edição de Produto' : 'Novo Produto'}</h1>
             <p:messages autoUpdate="true" closable="true"></p:messages>
             <p:toolbar style="margin-top:20px;">
                 <p:toolbarGroup>
@@ -43,7 +43,7 @@
 	    			<f:selectItem itemLabel="Selecione a categoria"/>
 	    			<f:selectItems value="#{cadastroProdutoBean.categoriasRaizes}" var="categoria"
 	    				itemValue="#{categoria}" itemLabel="#{categoria.descricao}" />
-	    			<p:ajax listener="#{cadastroProdutoBean.carregarSubcategorias}" update="subcategoria"/>		
+	    			<p:ajax event="change" listener="#{cadastroProdutoBean.carregarSubcategorias}" update="subcategoria"/>		
                 </p:selectOneMenu>
 
                 <p:outputLabel value="Subcategoria" for="subcategoria" />

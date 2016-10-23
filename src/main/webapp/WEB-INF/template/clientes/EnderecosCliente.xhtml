@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:panelGrid columns="4" style="width: 100px;" id="painel"
+		columnClasses="rotulo, campo, rotulo, campo">
+
+		<p:outputLabel value="Logradouro" for="logradouro" />
+		<p:inputText id="logradouro" size="50" 
+			value="#{cadastroClienteBean.enderecoCliente.logradouro}" />
+
+		<p:outputLabel value="Número" for="numero" />
+		<p:inputText id="numero" size="5" 
+			value="#{cadastroClienteBean.enderecoCliente.numero}" />
+
+		<p:outputLabel value="Complemento" for="complemento" />
+		<p:inputText id="complemento" size="50"
+			value="#{cadastroClienteBean.enderecoCliente.complemento}" />
+
+		<p:outputLabel value="Cidade" for="cidade" />
+		<p:inputText id="cidade" size="20" 
+			value="#{cadastroClienteBean.enderecoCliente.cidade}" />
+
+		<p:outputLabel value="Estado" for="uf" />
+		<p:inputText id="uf" size="20"
+			value="#{cadastroClienteBean.enderecoCliente.uf}" />
+
+		<p:outputLabel value="CEP" for="cep" />
+		<p:inputText id="cep" size="10"
+			value="#{cadastroClienteBean.enderecoCliente.cep}" />
+	</p:panelGrid>
+
+</ui:composition>

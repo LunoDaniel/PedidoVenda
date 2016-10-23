@@ -11,20 +11,21 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
-@Table(name="item_pedido")
+@Table(name = "item_pedido")
 public class ItemPedido implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
 	private Produto produto;
 	private Pedido pedido;
-	private Integer quantidade;
-	private BigDecimal valorUnitario;
+	private Integer quantidade = 1;
+	private BigDecimal valorUnitario = BigDecimal.ZERO;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId() {
 		return id;
 	}
@@ -34,7 +35,7 @@ public class ItemPedido implements Serializable {
 	}
 
 	@ManyToOne
-	@JoinColumn(name="produto_id", nullable=false)
+	@JoinColumn(name = "produto_id", nullable = false)
 	public Produto getProduto() {
 		return produto;
 	}
@@ -43,7 +44,7 @@ public class ItemPedido implements Serializable {
 		this.produto = produto;
 	}
 
-	@Column(nullable=false, length=8)
+	@Column(nullable = false, length = 8)
 	public Integer getQuantidade() {
 		return quantidade;
 	}
@@ -52,7 +53,7 @@ public class ItemPedido implements Serializable {
 		this.quantidade = quantidade;
 	}
 
-	@Column(name="valor_unitario", nullable=false, precision= 10, scale=2)
+	@Column(name = "valor_unitario", nullable = false, precision = 10, scale = 2)
 	public BigDecimal getValorUnitario() {
 		return valorUnitario;
 	}
@@ -60,9 +61,9 @@ public class ItemPedido implements Serializable {
 	public void setValorUnitario(BigDecimal valorUnitario) {
 		this.valorUnitario = valorUnitario;
 	}
-	
+
 	@ManyToOne
-	@JoinColumn(name="pedido_id", nullable=false)
+	@JoinColumn(name = "pedido_id", nullable = false)
 	public Pedido getPedido() {
 		return pedido;
 	}
@@ -96,6 +97,24 @@ public class ItemPedido implements Serializable {
 		return true;
 	}
 
-	
+	@Transient
+	public boolean isProdutoAssociado() {
+		return this.getProduto() != null && this.getProduto().getId() != null;
+	}
 
+	@Transient
+	public BigDecimal getValorTotal() {
+		return this.getValorUnitario().multiply(new BigDecimal(this.getQuantidade()));
+	}
+
+	@Transient
+	public boolean isEstoqueSuficiente() {
+		return this.getPedido().isEmitido() || this.getProduto().getId() == null
+				|| this.getProduto().getQuantidadeEstoque() >= this.getQuantidade();
+	}
+
+	@Transient
+	public boolean isEstoqueInsuficiente() {
+		return !this.isEstoqueSuficiente();
+	}
 }

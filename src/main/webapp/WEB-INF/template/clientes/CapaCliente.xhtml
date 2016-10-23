@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:panelGrid columns="4" id="painel"
+		style="width: 100%; margin-top:20px;"
+		columnClasses="rotulo, campo, rotulo, campo">
+
+		<p:outputLabel value="Nome" for="nome" />
+		<p:inputText id="nome" size="60" maxlength="80"
+			value="#{cadastroClienteBean.cliente.nome}" />
+
+		<p:outputLabel value="Tipo Pessoa" for="tipoPessoa" />
+		<p:selectOneRadio id="tipoPessoa"
+			value="#{cadastroClienteBean.cliente.tipoPessoa}">
+			<f:selectItems value="#{cadastroClienteBean.tipoPessoa}"
+				var="tipoPessoa" itemValue="#{tipoPessoa}"
+				itemLabel="#{tipoPessoa.descricao}" />
+			<p:ajax event="change" update="cnpj,cnpjLabel" />
+		</p:selectOneRadio>
+		<p:outputLabel id="cnpjLabel"
+			value="#{cadastroClienteBean.cliente.pessoaFisica ? 'CPF' : 'CNPJ:'}"
+			for="cnpj" />
+		<p:inputMask id="cnpj"
+			mask="#{cadastroClienteBean.cliente.pessoaFisica ? '999.999.999-99' : '99.999.999/9999-99' }"
+			value="#{cadastroClienteBean.cliente.documentoReceitaFederal}" size="24" />
+
+		<p:outputLabel value="Email" for="email" />
+		<p:inputText id="email" size="60" maxlength="60"
+			value="#{cadastroClienteBean.cliente.email}" />
+
+	</p:panelGrid>
+</ui:composition>

@@ -102,3 +102,7 @@ footer{
 .menu-sistema .ui-icon-triangle-1-s {
     background: url(#{resource['images:seta-para-baixo.png']}) no-repeat;
 }
+
+.ui-state-disable{
+	opacity: .80 !important;
+}

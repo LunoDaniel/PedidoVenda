@@ -1,0 +1,62 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">Novo Usuario</ui:define>
+
+	<ui:define name="corpo">
+		<f:metadata>
+			<o:viewParam name="usuario" value="#{cadastroUsuarioBean.usuario}" />
+			<f:event listener="#{cadastroUsuarioBean.inicializar}"
+				type="preRenderView"></f:event>
+		</f:metadata>
+
+		<h:form>
+			<h1>Novo Usuario</h1>
+			<p:messages autoUpdate="true" closable="true"></p:messages>
+			<p:toolbar style="margin-top:20px;">
+				<p:toolbarGroup>
+					<p:button value="Novo" outcome="/usuarios/CadastroUsuario" />
+					<p:commandButton id="botaoSalvar" value="Salvar"
+						action="#{cadastroUsuarioBean.salvar}" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button value="Pesquisa" outcome="/usuarios/PesquisaUsuario" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:panelGrid columns="2" id="painel"
+				style="width: 100%; margin-top:20px;" columnClasses="rotulo, campo">
+
+				<p:outputLabel value="Nome" for="nome" />
+				<p:inputText id="nome" size="60" maxlength="80"
+					value="#{cadastroUsuarioBean.usuario.nome}" />
+
+				<p:outputLabel value="Email" for="email" />
+				<p:inputText id="email" size="60" maxlength="60"
+					value="#{cadastroUsuarioBean.usuario.email}"  />
+
+				<p:outputLabel value="Grupos" for="grupo" />
+				<p:selectManyCheckbox id="grupo" 
+					value="#{cadastroUsuarioBean.usuario.grupos}" converter="grupoConverter">
+					<f:selectItems value="#{cadastroUsuarioBean.grupos}" var="grupo"
+						itemValue="#{grupo}" itemLabel="#{grupo.descricao}" />
+				</p:selectManyCheckbox>
+
+				<p:outputLabel value="Senha" for="senha" />
+				<p:password id="senha" value="#{cadastroUsuarioBean.usuario.senha}"
+					required="true" match="confirmarSenha"
+					validatorMessage="As Senhas devem Ser Iguais." />
+
+				<p:outputLabel value="Confirmar Senha" for="confirmarSenha" />
+				<p:password id="confirmarSenha" 
+					value="#{cadastroUsuarioBean.usuario.senha}" required="true" />
+
+			</p:panelGrid>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,11 +18,13 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.pedidovenda.service.NegocioException;
 import com.pedidovenda.validation.SKU;
 
 @Entity
-@Table(name="produto")
+@Table(name = "produto")
 public class Produto implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
@@ -32,7 +35,7 @@ public class Produto implements Serializable {
 	private Categoria categoria;
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId() {
 		return id;
 	}
@@ -40,18 +43,7 @@ public class Produto implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
-	@NotBlank 
-	@SKU
-	@Column(nullable = false, length = 20, unique = true)
-	public String getSku() {
-		return sku;
-	}
 
-	public void setSku(String sku) {
-		this.sku = sku == null ? null : sku.toUpperCase();
-	}
-	
 	@NotBlank
 	@Size(max = 80)
 	@Column(nullable = false, length = 80)
@@ -63,9 +55,19 @@ public class Produto implements Serializable {
 		this.nome = nome;
 	}
 
-	
+	@NotBlank
+	@SKU
+	@Column(nullable = false, length = 20, unique = true)
+	public String getSku() {
+		return sku;
+	}
+
+	public void setSku(String sku) {
+		this.sku = sku == null ? null : sku.toUpperCase();
+	}
+
 	@NotNull(message = "é obrigatório")
-	@Column(name="valor_unitario", nullable = false, precision = 10, scale = 2)
+	@Column(name = "valor_unitario", nullable = false, precision = 10, scale = 2)
 	public BigDecimal getValorUnitario() {
 		return valorUnitario;
 	}
@@ -74,11 +76,10 @@ public class Produto implements Serializable {
 		this.valorUnitario = valorUnitario;
 	}
 
-	
-	@Min(0) 
-	@Max(value = 9999, message="tem um valor Muito Alto!")
-	@NotNull(message="é obrigatório")
-	@Column(name="quantidade_estoque", nullable = false, length = 5)
+	@NotNull
+	@Min(0)
+	@Max(value = 9999, message = "tem um valor muito alto")
+	@Column(name = "quantidade_estoque", nullable = false, length = 5)
 	public Integer getQuantidadeEstoque() {
 		return quantidadeEstoque;
 	}
@@ -123,4 +124,17 @@ public class Produto implements Serializable {
 		return true;
 	}
 
+	public void baixarEstoque(Integer quantidade) {
+		int novaQuantidade = this.getQuantidadeEstoque() - quantidade;
+		if (novaQuantidade < 0) {
+			throw new NegocioException(
+					"Não há disponibilidade no Estoque de " + quantidade + " itens do produto " + this.getSku() + ".");
+		}
+		this.setQuantidadeEstoque(novaQuantidade);
+	}
+
+	public void adicionarEstoque(Integer quantidade) {
+		this.setQuantidadeEstoque(getQuantidadeEstoque()  + quantidade);
+		
+	}
 }

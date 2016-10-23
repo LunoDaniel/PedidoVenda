@@ -1,0 +1,32 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui">
+
+	<f:metadata>
+		<o:viewParam name="cliente" value="#{cadastroClienteBean.cliente}" />
+	</f:metadata>
+	<ui:define name="titulo">Novo Cliente</ui:define>
+
+	<ui:define name="corpo">
+		
+		<h:form id="frmCadastroCliente">
+			<h1>Novo Cliente</h1>
+			
+			<p:messages autoUpdate="true" closable="true"/>
+			
+			<ui:include src="/WEB-INF/template/clientes/BotoesClientes.xhtml" />
+
+			<ui:include src="/WEB-INF/template/clientes/CapaCliente.xhtml" />
+
+			<p:tabView style="margin-top: 20px">
+				<p:tab title="Endereço">
+					<ui:include src="/WEB-INF/template/clientes/EnderecosCliente.xhtml" />
+				</p:tab>
+			</p:tabView>
+		</h:form>
+	</ui:define>
+</ui:composition>

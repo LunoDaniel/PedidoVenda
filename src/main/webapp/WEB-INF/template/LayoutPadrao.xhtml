@@ -14,9 +14,9 @@
 </h:head>
 
 <h:body>
-	<p:ajaxStatus styleClass="ajax-status">
+	<p:ajaxStatus styleClass="ajax-status" onsuccess="configurarMoeda()">
 		<f:facet name="start">
-			<h:graphicImage library="images" name="loading-2.gif" />
+			<h:graphicImage library="images" name="loading.gif" />
 		</f:facet>
 		<f:facet name="complete">
 			<h:outputText value="" />
@@ -32,13 +32,13 @@
 
 		<div style="float: right; margin-right: 100px;">
 			<span style="float: left; height: 30px; line-height: 30px; margin-right: 60px">
-				Olá Usuário
+				Olá #{seguranca.nomeUsuario}
 			</span>
 			<h:form style="dislpay:inline-block; float: right;" >
 				<p:menubar styleClass="menu-sistema">
-					<p:submenu label="Cadastros">
-						<p:menuitem value="Clientes" />
-						<p:menuitem value="Usuários" />
+					<p:submenu label="Cadastros" rendered="#{seguranca.acessoPermitido}">
+						<p:menuitem value="Clientes" outcome="/clientes/CadastroCliente"/>
+						<p:menuitem value="Usuários" outcome="/usuarios/CadastroUsuario"/>
 						<p:separator />
 						<p:menuitem value="Categorias" />
 						<p:menuitem value="Produtos" outcome="/produtos/PesquisaProduto" />
@@ -47,7 +47,10 @@
 						<p:menuitem value="Novo Pedido" outcome="/pedidos/CadastroPedidos"/>
 						<p:menuitem value="Pesquisa Pedido" outcome="/pedidos/PesquisaPedidos"/>
 					</p:submenu>
-					<p:menuitem value="Sair" />
+					<p:submenu label="Relatórios">
+						<p:menuitem value="Pedidos Emitidos" outcome="/relatorios/RelatorioPedidosEmitidos" />
+					</p:submenu>
+					<p:menuitem value="Sair" url="/j_spring_security_logout"/>
 				</p:menubar>
 			</h:form>
 		</div>
