@@ -1,18 +1,17 @@
 package com.pedidovenda.repository;
 
-import java.io.Serializable;
+import com.pedidovenda.model.Grupo;
+import com.pedidovenda.exceptions.NegocioException;
+import jakarta.transaction.Transactional;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceException;
+
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceException;
-
-import com.pedidovenda.model.Grupo;
-import com.pedidovenda.service.NegocioException;
-import com.pedidovenda.util.jpa.Transactional;
-
-public class GruposRepository implements Serializable{
-	private static final long serialVersionUID = 1L;
+@ApplicationScoped
+public class GruposRepository {
 	
 	@Inject
 	private EntityManager manager;

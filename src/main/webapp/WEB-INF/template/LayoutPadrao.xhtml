@@ -1,83 +1,99 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+	  xmlns:f="jakarta.faces.core"
+	  xmlns:h="jakarta.faces.html"
+	  xmlns:ui="jakarta.faces.facelets"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
 <h:head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title><ui:insert name="titulo"> Sistema de Pedidos de Venda </ui:insert></title>
-	<h:outputStylesheet library="css" name="sistema.css"></h:outputStylesheet>
-	<h:outputScript name="jquery.maskMoney.js" library="js" />
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<title><ui:insert name="titulo">Sistema de Pedidos de Venda</ui:insert></title>
+
+	<!-- CSS -->
+	<h:outputStylesheet library="css" name="sistema.css"/>
+	<h:outputStylesheet library="primefaces" name="primeicons/primeicons.css"/>
+
+	<!-- JS -->
+	<h:outputScript name="jquery.maskMoney.js" library="js" target="head"/>
+	<h:outputScript library="primefaces" name="jquery/jquery.js" target="head"/>
+	<h:outputScript library="primefaces" name="core.js" target="head"/>
+	<h:outputScript library="primefaces" name="components.js" target="head"/>
 </h:head>
 
 <h:body>
+	<!-- Loading Indicator -->
 	<p:ajaxStatus styleClass="ajax-status" onsuccess="configurarMoeda()">
 		<f:facet name="start">
-			<h:graphicImage library="images" name="loading.gif" />
+			<p:graphicImage library="images" name="loading.gif" width="32" height="32"/>
+			<p:outputLabel value="Processando..." style="margin-left: 10px;"/>
 		</f:facet>
 		<f:facet name="complete">
-			<h:outputText value="" />
+			<p:outputLabel value=""/>
 		</f:facet>
 	</p:ajaxStatus>
-	<header>
-	<div>
-		<div style="float: left;">
-			<h:link outcome="/Home">
-				<h:graphicImage library="images" name="logo-algaworks-2.png" />
+
+	<!-- Header -->
+	<p:toolbar styleClass="toolbar-header">
+		<f:facet name="left">
+			<h:link outcome="/Home" styleClass="logo-link">
+				<p:graphicImage library="images" name="logo-algaworks-2.png" alt="Logo" width="120"/>
 			</h:link>
-		</div>
+		</f:facet>
 
-		<div style="float: right; margin-right: 100px;">
-			<span style="float: left; height: 30px; line-height: 30px; margin-right: 60px">
-				Olá #{seguranca.nomeUsuario}
-			</span>
-			<h:form style="dislpay:inline-block; float: right;" >
-				<p:menubar styleClass="menu-sistema">
-					<p:submenu label="Cadastros" rendered="#{seguranca.acessoPermitido}">
-						<p:menuitem value="Clientes" outcome="/clientes/CadastroCliente"/>
-						<p:menuitem value="Usuários" outcome="/usuarios/CadastroUsuario"/>
-						<p:separator />
-						<p:menuitem value="Categorias" />
-						<p:menuitem value="Produtos" outcome="/produtos/PesquisaProduto" />
-					</p:submenu>
-					<p:submenu label="Pedidos">
-						<p:menuitem value="Novo Pedido" outcome="/pedidos/CadastroPedidos"/>
-						<p:menuitem value="Pesquisa Pedido" outcome="/pedidos/PesquisaPedidos"/>
-					</p:submenu>
-					<p:submenu label="Relatórios">
-						<p:menuitem value="Pedidos Emitidos" outcome="/relatorios/RelatorioPedidosEmitidos" />
-					</p:submenu>
-					<p:menuitem value="Sair" url="/j_spring_security_logout"/>
-				</p:menubar>
-			</h:form>
-		</div>
-		<div style="clear: both;"></div>
+		<f:facet name="right">
+			<p:outputLabel value="Olá #{seguranca.nomeUsuario}" styleClass="user-greeting"/>
+
+			<p:menuButton value="Menu" styleClass="menu-button" rendered="#{seguranca.acessoPermitido}">
+				<p:submenu label="Cadastros" icon="pi pi-fw pi-bookmark">
+					<p:menuitem value="Clientes" outcome="/clientes/CadastroCliente" icon="pi pi-fw pi-users"/>
+					<p:menuitem value="Usuários" outcome="/usuarios/CadastroUsuario" icon="pi pi-fw pi-user"/>
+					<p:separator />
+					<p:menuitem value="Categorias" icon="pi pi-fw pi-tags"/>
+					<p:menuitem value="Produtos" outcome="/produtos/PesquisaProduto" icon="pi pi-fw pi-box"/>
+				</p:submenu>
+
+				<p:submenu label="Pedidos" icon="pi pi-fw pi-shopping-cart">
+					<p:menuitem value="Novo Pedido" outcome="/pedidos/CadastroPedidos" icon="pi pi-fw pi-plus"/>
+					<p:menuitem value="Pesquisa Pedido" outcome="/pedidos/PesquisaPedidos" icon="pi pi-fw pi-search"/>
+				</p:submenu>
+
+				<p:submenu label="Relatórios" icon="pi pi-fw pi-chart-bar">
+					<p:menuitem value="Pedidos Emitidos" outcome="/relatorios/RelatorioPedidosEmitidos" icon="pi pi-fw pi-file"/>
+				</p:submenu>
+
+				<p:menuitem value="Sair" url="/logout" icon="pi pi-fw pi-power-off"/>
+			</p:menuButton>
+		</f:facet>
+	</p:toolbar>
+
+	<!-- Main Content -->
+	<div class="content-wrapper">
+		<ui:insert name="corpo"/>
 	</div>
-	</header>
-	<div id="conteudo">
-		<ui:insert name="corpo" />
-	</div>
 
-	<p:separator style="margin-top: 20px;" />
+	<!-- Footer -->
+	<p:toolbar styleClass="toolbar-footer">
+		<f:facet name="left">
+			<p:outputLabel value="Sistema de Pedido de Vendas © #{now.year}"/>
+		</f:facet>
+	</p:toolbar>
 
-	<footer>
-	<p>Sistema de Pedido de Vendas</p>
-	</footer>
-
-	<script>
-		function configurarMoeda() {
-			$(".moeda").maskMoney({
-				decimal : ",",
-				thousands : ".",
-				allowZero : true
-			});
-		}
+	<!-- JavaScript -->
+	<h:outputScript target="body">
 		$(document).ready(function() {
-			configurarMoeda();
+		configurarMoeda();
 		});
-	</script>
+
+		function configurarMoeda() {
+		$(".moeda").maskMoney({
+		decimal: ",",
+		thousands: ".",
+		allowZero: true
+		});
+		}
+	</h:outputScript>
 </h:body>
 </html>

@@ -1,5 +1,14 @@
 package com.pedidovenda.controller;
 
+import com.pedidovenda.model.Usuario;
+import com.pedidovenda.repository.PedidoRepository;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import org.primefaces.model.chart.CartesianChartModel;
+import org.primefaces.model.chart.ChartSeries;
+import org.primefaces.model.chart.LineChartModel;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.DateFormat;
@@ -7,18 +16,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-
-import org.primefaces.model.chart.CartesianChartModel;
-import org.primefaces.model.chart.ChartSeries;
-import org.primefaces.model.chart.LineChartModel;
-
-import com.pedidovenda.model.Usuario;
-import com.pedidovenda.repository.PedidoRepository;
-import com.pedidovenda.security.UsuarioLogado;
-import com.pedidovenda.security.UsuarioSistema;
 
 @Named
 @RequestScoped
@@ -29,11 +26,7 @@ public class GraficosPedidosCriadosBean implements Serializable{
 	
 	@Inject
 	private PedidoRepository pedidos;
-	
-	@Inject
-	@UsuarioLogado
-	private UsuarioSistema usarioLogado;
-	
+
 	private CartesianChartModel modelChart;
 	
 	public void preRender(){
@@ -41,7 +34,7 @@ public class GraficosPedidosCriadosBean implements Serializable{
 		this.modelChart.setTitle("Pedidos");
 		this.modelChart.setLegendPosition("e");
 		adicionarSerie("Todos os Pedidos", null);
-		adicionarSerie("Meus Pedido", usarioLogado.getUsuario());
+		adicionarSerie("Meus Pedido", new Usuario());
 	}
 
 	private void adicionarSerie(String rotulo, Usuario criadoPor) {

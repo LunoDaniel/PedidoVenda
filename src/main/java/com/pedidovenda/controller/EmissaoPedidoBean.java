@@ -1,16 +1,15 @@
 package com.pedidovenda.controller;
 
-import java.io.Serializable;
-
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.event.Event;
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import com.pedidovenda.events.PedidoAlateradoEvent;
 import com.pedidovenda.model.Pedido;
 import com.pedidovenda.service.EmissaoPedidoService;
 import com.pedidovenda.util.jsf.FacesUtil;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.event.Event;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+
+import java.io.Serializable;
 
 @Named
 @RequestScoped
@@ -25,7 +24,7 @@ public class EmissaoPedidoBean implements Serializable{
 	private Pedido pedido;
 	
 	@Inject
-    Event<PedidoAlateradoEvent> pedidoAlteradoEnvent;
+	Event<PedidoAlateradoEvent> pedidoAlteradoEnvent;
 	
 	public void emitirPedido(){
 		this.pedido.removerItemVazio();

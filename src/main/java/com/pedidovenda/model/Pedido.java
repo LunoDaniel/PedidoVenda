@@ -1,182 +1,81 @@
 package com.pedidovenda.model;
 
-import java.io.Serializable;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
 
+@Data
+@Builder
 @Entity
 @Table(name = "pedido")
-public class Pedido implements Serializable {
-	private static final long serialVersionUID = 1L;
-
-	private Long id;
-	private Cliente cliente;
-	private Usuario usuario;
-	private EnderecoEntrega enderecoEntrega;
-	private StatusPedido status = StatusPedido.ORCAMENTO;
-	private FormaPagamento formaPagamento;
-	private Date dataCriacao;
-	private Date dataEntrega;
-	private String observacao;
-	private BigDecimal valorFrete = BigDecimal.ZERO;
-	private BigDecimal valorDesconto = BigDecimal.ZERO;
-	private BigDecimal valorTotal = BigDecimal.ZERO;
-	private List<ItemPedido> itens = new ArrayList<>();
+@AllArgsConstructor
+@NoArgsConstructor
+public class Pedido {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
+	private Long id;
 
 	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "cliente_id", nullable = false)
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
+	private Cliente cliente;
 
 	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "usuario_id", nullable = false)
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
+	private Usuario usuario;
 
 	@Embedded
-	public EnderecoEntrega getEnderecoEntrega() {
-		return enderecoEntrega;
-	}
-
-	public void setEnderecoEntrega(EnderecoEntrega enderecoEntrega) {
-		this.enderecoEntrega = enderecoEntrega;
-	}
+	private EnderecoEntrega enderecoEntrega;
 
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, length = 24)
-	public StatusPedido getStatus() {
-		return status;
-	}
-
-	public void setStatus(StatusPedido status) {
-		this.status = status;
-	}
+	private StatusPedido status = StatusPedido.ORCAMENTO;
 
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(name = "forma_pagamento", nullable = false, length = 20)
-	public FormaPagamento getFormaPagamento() {
-		return formaPagamento;
-	}
-
-	public void setFormaPagamento(FormaPagamento formaPagamento) {
-		this.formaPagamento = formaPagamento;
-	}
+	private FormaPagamento formaPagamento;
 
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "data_criacao", nullable = false)
-	public Date getDataCriacao() {
-		return dataCriacao;
-	}
+	private LocalDateTime dataCriacao;
 
-	public void setDataCriacao(Date dataCriacao) {
-		this.dataCriacao = dataCriacao;
-	}
+	@NotNull
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "data_entrega", nullable = false)
+	private LocalDateTime dataEntrega;
 
 	@NotNull
 	@Column(columnDefinition = "text")
-	public String getObservacao() {
-		return observacao;
-	}
-
-	public void setObservacao(String observacao) {
-		this.observacao = observacao;
-	}
+	private String observacao;
 
 	@NotNull
 	@Column(name = "valor_frete", nullable = false, precision = 10, scale = 2)
-	public BigDecimal getValorFrete() {
-		return valorFrete;
-	}
-
-	public void setValorFrete(BigDecimal valorFrete) {
-		this.valorFrete = valorFrete;
-	}
+	private BigDecimal valorFrete = BigDecimal.ZERO;
 
 	@NotNull
 	@Column(name = "valor_desconto", nullable = false, precision = 10, scale = 2)
-	public BigDecimal getValorDesconto() {
-		return valorDesconto;
-	}
-
-	public void setValorDesconto(BigDecimal valorDesconto) {
-		this.valorDesconto = valorDesconto;
-	}
+	private BigDecimal valorDesconto = BigDecimal.ZERO;
 
 	@NotNull
 	@Column(name = "valor_total", nullable = false, precision = 10, scale = 2)
-	public BigDecimal getValorTotal() {
-		return valorTotal;
-	}
-
-	public void setValorTotal(BigDecimal valorTotal) {
-		this.valorTotal = valorTotal;
-	}
+	private BigDecimal valorTotal = BigDecimal.ZERO;
 
 	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-	public List<ItemPedido> getItens() {
-		return itens;
-	}
-
-	public void setItens(List<ItemPedido> itens) {
-		this.itens = itens;
-	}
-
-	@NotNull
-	@Temporal(TemporalType.DATE)
-	@Column(name = "data_entrega", nullable = false)
-	public Date getDataEntrega() {
-		return dataEntrega;
-	}
-
-	public void setDataEntrega(Date dataEntrega) {
-		this.dataEntrega = dataEntrega;
-	}
+	private List<ItemPedido> itens = new ArrayList<>();
 
 	@Transient
 	public boolean isNovo() {
@@ -186,31 +85,6 @@ public class Pedido implements Serializable {
 	@Transient
 	public boolean isExistente() {
 		return !isNovo();
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Pedido other = (Pedido) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
 	}
 
 	@Transient
@@ -267,7 +141,7 @@ public class Pedido implements Serializable {
 	public boolean isEmitido() {
 		return StatusPedido.EMITIDO.equals(this.getStatus());
 	}
-	
+
 	@Transient
 	public boolean isNaoEmissivel() {
 		return !this.isEmissivel();
@@ -277,7 +151,7 @@ public class Pedido implements Serializable {
 	private boolean isEmissivel() {
 		return this.isExistente() && this.isOrcamento();
 	}
-	
+
 	@Transient
 	public boolean isNaoCancelavel() {
 		return !isCancelavel();
@@ -302,7 +176,7 @@ public class Pedido implements Serializable {
 	private boolean isAlteravel() {
 		return this.isOrcamento();
 	}
-	
+
 	@Transient
 	public boolean isEmailNaoEnviavel(){
 		return this.isCancelado() || this.isNovo();

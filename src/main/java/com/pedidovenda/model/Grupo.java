@@ -1,19 +1,12 @@
 package com.pedidovenda.model;
 
-import java.io.Serializable;
+import jakarta.persistence.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "grupo")
-public class Grupo implements Serializable {
-	private static final long serialVersionUID = 1L;
-
+public class Grupo {
 	private Long id;
 	private String nome;
 	private String descricao;

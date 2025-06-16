@@ -1,20 +1,18 @@
 package com.pedidovenda.controller;
 
-import java.io.Serializable;
-import javax.faces.bean.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
 
 import com.pedidovenda.model.Cliente;
 import com.pedidovenda.model.Endereco;
 import com.pedidovenda.model.TipoPessoa;
 import com.pedidovenda.service.CadastroClienteService;
 import com.pedidovenda.util.jsf.FacesUtil;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 @Named
 @ViewScoped
-public class CadastroClienteBean implements Serializable{
-	private static final long serialVersionUID = 1L;
+public class CadastroClienteBean {
 	
 	@Inject
 	private CadastroClienteService cadastroClienteService;

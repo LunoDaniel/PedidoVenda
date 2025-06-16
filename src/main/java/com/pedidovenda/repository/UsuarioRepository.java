@@ -1,17 +1,18 @@
 package com.pedidovenda.repository;
 
+import com.pedidovenda.model.Usuario;
+import com.pedidovenda.exceptions.NegocioException;
+import jakarta.transaction.Transactional;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.PersistenceException;
+
 import java.io.Serializable;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceException;
-
-import com.pedidovenda.model.Usuario;
-import com.pedidovenda.service.NegocioException;
-import com.pedidovenda.util.jpa.Transactional;
-
+@ApplicationScoped
 public class UsuarioRepository implements Serializable {
 	private static final long serialVersionUID = 1L;
 

@@ -1,15 +1,11 @@
 package com.pedidovenda.service;
 
-import java.io.Serializable;
-
-import javax.inject.Inject;
-
 import com.pedidovenda.model.Pedido;
 import com.pedidovenda.repository.PedidoRepository;
-import com.pedidovenda.util.jpa.Transactional;
+import jakarta.transaction.Transactional;
+import jakarta.inject.Inject;
 
-public class EstoqueService implements Serializable{
-	private static final long serialVersionUID = 1L;
+public class EstoqueService {
 	
 	@Inject
 	private PedidoRepository pedidos;

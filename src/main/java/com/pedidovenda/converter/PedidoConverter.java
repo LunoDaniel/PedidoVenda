@@ -1,35 +1,27 @@
 package com.pedidovenda.converter;
 
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
-
 import com.pedidovenda.model.Pedido;
 import com.pedidovenda.repository.PedidoRepository;
-import com.pedidovenda.util.cdi.CDIServiceLocator;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.convert.Converter;
+import jakarta.faces.convert.FacesConverter;
+import jakarta.inject.Inject;
 
-@FacesConverter(forClass=Pedido.class)
-public class PedidoConverter implements Converter {
+@FacesConverter
+public class PedidoConverter implements Converter<Pedido> {
 
+	@Inject
 	private PedidoRepository pedidoRepository;
-	
-	public PedidoConverter() {
-		this.pedidoRepository = CDIServiceLocator.getBean(PedidoRepository.class);
+
+	@Override
+	public Pedido getAsObject(FacesContext context, UIComponent component, String value) {
+		return (value != null) ? pedidoRepository.getById(Long.valueOf(value)) : null;
 	}
 	
 	@Override
-	public Object getAsObject(FacesContext context, UIComponent component, String value) {
-		return (value != null) ? pedidoRepository.getById(new Long(value)) : null;
-	}
-	
-	@Override
-	public String getAsString(FacesContext context, UIComponent component, Object value) {
-		if(value != null){
-			Pedido pedido = (Pedido) value;
-			return ( pedido.getId() == null ) ? null : pedido.getId().toString();
-		}
-		return  "";
+	public String getAsString(FacesContext context, UIComponent component, Pedido pedido) {
+		return ( pedido.getId() == null ) ? "" : pedido.getId().toString();
 	}
 
 }

@@ -1,19 +1,18 @@
 package com.pedidovenda.repository;
 
-import java.io.Serializable;
-import java.util.List;
-
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceException;
-
 import com.pedidovenda.model.Cliente;
 import com.pedidovenda.model.Endereco;
-import com.pedidovenda.service.NegocioException;
-import com.pedidovenda.util.jpa.Transactional;
+import com.pedidovenda.exceptions.NegocioException;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceException;
+import jakarta.transaction.Transactional;
 
-public class EnderecoRepository implements Serializable {
-	private static final long serialVersionUID = 1L;
+import java.util.List;
+
+@ApplicationScoped
+public class EnderecoRepository {
 
 	@Inject
 	private EntityManager manager;

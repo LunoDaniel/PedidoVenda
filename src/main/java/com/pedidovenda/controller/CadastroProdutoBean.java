@@ -1,24 +1,21 @@
 package com.pedidovenda.controller;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.faces.bean.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.validation.constraints.NotNull;
-
 import com.pedidovenda.model.Categoria;
 import com.pedidovenda.model.Produto;
 import com.pedidovenda.repository.CategoriaRepository;
 import com.pedidovenda.service.CadastroProdutoService;
 import com.pedidovenda.util.jsf.FacesUtil;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.validation.constraints.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Named
 @ViewScoped
-public class CadastroProdutoBean implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class CadastroProdutoBean {
 
 	@Inject
 	private CategoriaRepository categorias;

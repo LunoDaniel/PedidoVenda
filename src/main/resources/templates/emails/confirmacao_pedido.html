@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmação de Pedido</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; }
+        .header { background-color: #f8f9fa; padding: 20px; text-align: center; }
+        .content { padding: 20px; }
+        .footer { background-color: #f8f9fa; padding: 10px; text-align: center; font-size: 0.8em; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Seu pedido foi confirmado!</h1>
+    </div>
+
+    <div class="content">
+        <p>Olá <span th:text="${cliente.nome}">Nome do Cliente</span>,</p>
+        <p>Obrigado por seu pedido #<span th:text="${pedido.id}">123</span>.</p>
+
+        <h3>Resumo do Pedido:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Produto</th>
+                    <th>Quantidade</th>
+                    <th>Preço Unitário</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="item : ${pedido.itens}">
+                    <td th:text="${item.produto.nome}">Produto</td>
+                    <td th:text="${item.quantidade}">1</td>
+                    <td th:text="${#numbers.formatCurrency(item.valorUnitario)}">R$ 0,00</td>
+                    <td th:text="${#numbers.formatCurrency(item.valorTotal)}">R$ 0,00</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" style="text-align: right;"><strong>Total:</strong></td>
+                    <td th:text="${#numbers.formatCurrency(pedido.valorTotal)}">R$ 0,00</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div class="footer">
+        <p>Em caso de dúvidas, entre em contato com nosso suporte.</p>
+        <p>© 2023 PedidoVenda - Todos os direitos reservados</p>
+    </div>
+</body>
+</html>

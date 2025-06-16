@@ -1,16 +1,13 @@
 package com.pedidovenda.service;
 
-import java.io.Serializable;
-
-import javax.inject.Inject;
-
+import com.pedidovenda.exceptions.NegocioException;
 import com.pedidovenda.model.Pedido;
 import com.pedidovenda.model.StatusPedido;
 import com.pedidovenda.repository.PedidoRepository;
-import com.pedidovenda.util.jpa.Transactional;
+import jakarta.transaction.Transactional;
+import jakarta.inject.Inject;
 
-public class CancelamentoPedidoService implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class CancelamentoPedidoService {
 
 	@Inject
 	private PedidoRepository pedidos;

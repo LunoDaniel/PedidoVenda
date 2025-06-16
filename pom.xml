@@ -8,182 +8,82 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>21</maven.compiler.source>
+		<maven.compiler.target>21</maven.compiler.target>
 	</properties>
 
-	<build>
-		<finalName>PedidoVenda</finalName>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.5.1</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-
 	<dependencies>
-		<!-- Implementacao do Bean Validation -->
+		<!-- Jakarta EE 11 (versões mais recentes) -->
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<version>5.1.3.Final</version>
-			<scope>compile</scope>
+			<groupId>jakarta.platform</groupId>
+			<artifactId>jakarta.jakartaee-api</artifactId>
+			<version>10.0.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- JSF Implementation (MyFaces ou Mojarra) -->
+		<dependency>
+			<groupId>org.apache.myfaces.core</groupId>
+			<artifactId>myfaces-impl</artifactId>
+			<version>4.0.2</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- JSF 4.0 (Jakarta) -->
+		<dependency>
+			<groupId>jakarta.faces</groupId>
+			<artifactId>jakarta.faces-api</artifactId>
+			<version>4.0.0</version>
 		</dependency>
 
-		<!-- Núcleo do Hibernate -->
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>4.3.8.Final</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<!-- Implementação de EntityManager da JPA -->
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-entitymanager</artifactId>
-			<version>4.3.8.Final</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<!-- Driver JDBC do MySQL -->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.34</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<!-- Weld (implementação do CDI) -->
-		<dependency>
-			<groupId>org.jboss.weld.servlet</groupId>
-			<artifactId>weld-servlet</artifactId>
-			<version>2.2.9.Final</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<!-- Weld depende do Jandex -->
-		<dependency>
-			<groupId>org.jboss</groupId>
-			<artifactId>jandex</artifactId>
-			<version>1.2.2.Final</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<!-- PrimeFaces (biblioteca de componentes) -->
+		<!-- PrimeFaces 12+ (compatível com JSF 4) -->
 		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
-			<version>5.1</version>
-			<scope>compile</scope>
+			<version>12.0.0</version>
 		</dependency>
 
-		<!-- Mojarra (implementacao do JSF) -->
+		<!-- Hibernate 6.x (Jakarta) -->
 		<dependency>
-			<groupId>org.glassfish</groupId>
-			<artifactId>javax.faces</artifactId>
-			<version>2.2.9</version>
-			<scope>compile</scope>
+			<groupId>org.hibernate.orm</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>6.4.4.Final</version>
 		</dependency>
 
-		<!-- OmniFaces (utilitarios para JSF) -->
+		<!-- Driver do Banco de Dados (ex: MySQL) -->
 		<dependency>
-			<groupId>org.omnifaces</groupId>
-			<artifactId>omnifaces</artifactId>
-			<version>1.5</version>
-			<scope>compile</scope>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.33</version>
 		</dependency>
-
-		<!-- Log4J -->
 		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
-			<scope>compile</scope>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.38</version>
+			<scope>provided</scope>
 		</dependency>
-
-		<!-- Commons Logging (abstrai a implementação de logging) -->
-		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<version>1.1.3</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<!-- Commons Lang (utilidades) -->
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.1</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<!-- Requerido para envio de e-mails -->
-		<dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>mail</artifactId>
-			<version>1.4.7</version>
-			<scope>compile</scope>
-		</dependency>
-		
-		<dependency>
-			<groupId>com.outjected</groupId>
-			<artifactId>simple-email</artifactId>
-			<version>0.2.5-SNAPSHOT</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<!-- Usamos para templates de emails -->
-		<dependency>
-			<groupId>org.apache.velocity</groupId>
-			<artifactId>velocity</artifactId>
-			<version>1.7</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<!-- Usamos para formatar números em templates -->
-		<dependency>
-			<groupId>velocity-tools</groupId>
-			<artifactId>velocity-tools-generic</artifactId>
-			<version>1.1</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<!-- Spring Security (autenticação e autorização) -->
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
-			<version>3.2.5.RELEASE</version>
+			<version>3.17.0</version>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-web</artifactId>
-			<version>3.2.5.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-config</artifactId>
-			<version>3.2.5.RELEASE</version>
+			<groupId>org.eclipse.angus</groupId>
+			<artifactId>angus-mail</artifactId>
+			<version>2.0.2</version>
 		</dependency>
 
 		<dependency>
-			<groupId>net.sf.jasperreports</groupId>
-			<artifactId>jasperreports</artifactId>
-			<version>5.1.2</version>
-			<scope>compile</scope>
+			<groupId>org.eclipse.microprofile.config</groupId>
+			<artifactId>microprofile-config-api</artifactId>
+			<version>3.0.2</version> <!-- ou a versão mais recente -->
+			<scope>provided</scope> <!-- Geralmente provida pelo runtime -->
 		</dependency>
-
-		<!-- API de Servlet -->
+		<!-- Thymeleaf para templates de e-mail -->
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>3.1.0</version>
-			<scope>provided</scope>
+			<groupId>org.thymeleaf</groupId>
+			<artifactId>thymeleaf</artifactId>
+			<version>3.1.2.RELEASE</version>
 		</dependency>
-
 	</dependencies>
 
 	<repositories>
@@ -194,7 +94,79 @@
 			<layout>default</layout>
 		</repository>
 	</repositories>
+	<build>
+		<plugins>
+			<!-- 1. Plugin para compilar com Java 21 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.11.0</version>
+				<configuration>
+					<release>21</release>  <!-- Versão do Java -->
+					<encoding>UTF-8</encoding>
+					<showWarnings>true</showWarnings>
+					<showDeprecation>true</showDeprecation>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>1.18.38</version>
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
 
+			<!-- 2. Plugin para empacotar o .war (incluindo dependências) -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.3.2</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>  <!-- Opcional: se não usar web.xml -->
+					<packagingIncludes>WEB-INF/**, META-INF/**</packagingIncludes>
+					<webResources>
+						<resource>
+							<directory>src/main/webapp</directory>
+							<includes>
+								<include>**/*.xhtml</include>
+								<include>**/*.html</include>
+								<include>**/*.css</include>
+								<include>**/*.js</include>
+							</includes>
+						</resource>
+					</webResources>
+				</configuration>
+			</plugin>
 
+			<!-- 3. Plugin para copiar dependências (opcional, para Liberty) -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.6.0</version>
 
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/liberty/libs</outputDirectory>
+							<includeScope>runtime</includeScope>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>io.openliberty.tools</groupId>
+				<artifactId>liberty-maven-plugin</artifactId>
+				<version>3.8.2</version>
+				<configuration>
+					<serverName>PedidoVendaServer</serverName>
+					<configFile>src/main/liberty/config/server.xml</configFile>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

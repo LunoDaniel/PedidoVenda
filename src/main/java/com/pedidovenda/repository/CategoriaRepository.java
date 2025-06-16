@@ -1,15 +1,14 @@
 package com.pedidovenda.repository;
 
-import java.io.Serializable;
+import com.pedidovenda.model.Categoria;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
+
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-
-import com.pedidovenda.model.Categoria;
-
-public class CategoriaRepository implements Serializable{
-	private static final long serialVersionUID = 1L;
+@ApplicationScoped
+public class CategoriaRepository {
 	
 	@Inject
 	private EntityManager manager;

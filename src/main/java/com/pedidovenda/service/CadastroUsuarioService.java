@@ -1,18 +1,14 @@
 package com.pedidovenda.service;
 
-import java.io.Serializable;
-
-import javax.inject.Inject;
-
-import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
-
+import com.pedidovenda.exceptions.NegocioException;
 import com.pedidovenda.model.Usuario;
 import com.pedidovenda.repository.UsuarioRepository;
-import com.pedidovenda.util.jpa.Transactional;
+import jakarta.transaction.Transactional;
+import jakarta.inject.Inject;
 
-public class CadastroUsuarioService implements Serializable {
+import static com.pedidovenda.util.security.Md5PasswordEncoder.encodePassword;
 
-	private static final long serialVersionUID = 1L;
+public class CadastroUsuarioService {
 
 	@Inject
 	private UsuarioRepository usuarios;
@@ -29,8 +25,7 @@ public class CadastroUsuarioService implements Serializable {
 	}
 
 	public Usuario encriptedUser(Usuario usuario) {
-		Md5PasswordEncoder encrypter = new Md5PasswordEncoder();
-		String encriptedPass = (!usuario.getSenha().isEmpty()) ? encrypter.encodePassword(usuario.getSenha(), null)
+		String encriptedPass = (!usuario.getSenha().isEmpty()) ? encodePassword(usuario.getSenha())
 				: usuario.getSenha();
 		usuario.setSenha(encriptedPass);
 		return usuario;

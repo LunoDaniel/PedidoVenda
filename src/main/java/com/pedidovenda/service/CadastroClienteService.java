@@ -1,12 +1,12 @@
 package com.pedidovenda.service;
 
-import java.io.Serializable;
-
-import javax.inject.Inject;
-
+import com.pedidovenda.exceptions.NegocioException;
 import com.pedidovenda.model.Cliente;
 import com.pedidovenda.repository.ClienteRepository;
-import com.pedidovenda.util.jpa.Transactional;
+import jakarta.transaction.Transactional;
+import jakarta.inject.Inject;
+
+import java.io.Serializable;
 
 public class CadastroClienteService implements Serializable {
 

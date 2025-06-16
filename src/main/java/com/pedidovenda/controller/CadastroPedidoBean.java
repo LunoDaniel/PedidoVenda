@@ -1,36 +1,25 @@
 package com.pedidovenda.controller;
 
-import java.io.Serializable;
-import java.util.List;
-
-import javax.enterprise.event.Observes;
-import javax.enterprise.inject.Produces;
-import javax.faces.bean.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.pedidovenda.events.PedidoAlateradoEvent;
-import com.pedidovenda.model.Cliente;
-import com.pedidovenda.model.EnderecoEntrega;
-import com.pedidovenda.model.FormaPagamento;
-import com.pedidovenda.model.ItemPedido;
-import com.pedidovenda.model.Pedido;
-import com.pedidovenda.model.Produto;
-import com.pedidovenda.model.Usuario;
+import com.pedidovenda.model.*;
 import com.pedidovenda.repository.ClienteRepository;
 import com.pedidovenda.repository.ProdutoRepository;
 import com.pedidovenda.repository.UsuarioRepository;
 import com.pedidovenda.service.CadastroPedidoService;
 import com.pedidovenda.util.jsf.FacesUtil;
 import com.pedidovenda.validation.SKU;
+import jakarta.enterprise.event.Observes;
+import jakarta.enterprise.inject.Produces;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.List;
 
 @Named
 @ViewScoped
-public class CadastroPedidoBean implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class CadastroPedidoBean {
 
     @Inject
     private UsuarioRepository usuarios;
