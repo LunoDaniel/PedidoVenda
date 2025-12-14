@@ -3,21 +3,23 @@ package com.pedidovenda.service;
 import com.pedidovenda.exceptions.NegocioException;
 import com.pedidovenda.model.Pedido;
 import com.pedidovenda.model.StatusPedido;
-import com.pedidovenda.repository.PedidoRepository;
-import jakarta.transaction.Transactional;
+import com.pedidovenda.repository.data.PedidoDataRepository;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
-public class CancelamentoPedidoService {
+import java.io.Serializable;
+
+public class CancelamentoPedidoService implements Serializable {
 
 	@Inject
-	private PedidoRepository pedidos;
+	private PedidoDataRepository pedidos;
 
 	@Inject
 	private EstoqueService estoqueService;
 
 	@Transactional
 	public Pedido cancelar(Pedido pedido) {
-		pedidos.getById(pedido.getId());
+		pedidos.findById(pedido.getId());
 
 		if (pedido.isNaoCancelavel()) {
 			throw new NegocioException(
@@ -29,7 +31,7 @@ public class CancelamentoPedidoService {
 		}
 		pedido.setStatus(StatusPedido.CANCELADO);
 		
-		return this.pedidos.guardar(pedido); 
+		return this.pedidos.save(pedido);
 	}
 
 }

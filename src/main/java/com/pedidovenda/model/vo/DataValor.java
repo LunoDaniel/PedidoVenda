@@ -2,14 +2,13 @@ package com.pedidovenda.model.vo;
 
 import lombok.Data;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 public class DataValor {
 	
-	private Date data;
+	private LocalDate data;
 	private BigDecimal valor;
 
 }

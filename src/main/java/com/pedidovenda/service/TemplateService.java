@@ -5,10 +5,12 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import jakarta.enterprise.context.ApplicationScoped;
+
+import java.io.Serializable;
 import java.util.Map;
 
 @ApplicationScoped
-public class TemplateService {
+public class TemplateService implements Serializable {
 
     private final TemplateEngine templateEngine;
 

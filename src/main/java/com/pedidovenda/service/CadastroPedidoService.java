@@ -3,16 +3,17 @@ package com.pedidovenda.service;
 import com.pedidovenda.exceptions.NegocioException;
 import com.pedidovenda.model.Pedido;
 import com.pedidovenda.model.StatusPedido;
-import com.pedidovenda.repository.PedidoRepository;
-import jakarta.transaction.Transactional;
+import com.pedidovenda.repository.data.PedidoDataRepository;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class CadastroPedidoService {
+public class CadastroPedidoService implements Serializable {
 
 	@Inject
-	private PedidoRepository pedidos;
+	private PedidoDataRepository pedidos;
 
 	@Transactional
 	public Pedido salvar(Pedido pedido) {
@@ -36,7 +37,7 @@ public class CadastroPedidoService {
 			throw new NegocioException("Valor Total do Pedido não pode ser Negativo.");
 		}
 
-		return pedidos.guardar(pedido);
+		return pedidos.save(pedido);
 	}
 
 }

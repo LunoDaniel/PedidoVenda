@@ -9,9 +9,11 @@ import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import java.io.Serializable;
+
 @Named
 @RequestScoped
-public class CancelamentoPedidoBean {
+public class CancelamentoPedidoBean implements Serializable {
 
 	@Inject
 	private CancelamentoPedidoService cancelamentoPedidoService;

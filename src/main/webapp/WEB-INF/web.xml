@@ -4,6 +4,21 @@
 		 xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
 		 version="5.0">
 
+    <display-name>PedidoVenda</display-name>
+
+    <!-- Configuração do DataSource -->
+    <resource-ref>
+        <description>DataSource para PedidoVenda</description>
+        <res-ref-name>jdbc/PedidoVendaDS</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+        <res-sharing-scope>Shareable</res-sharing-scope>
+    </resource-ref>
+
+	<welcome-file-list>
+		<welcome-file>Home.xhtml</welcome-file>
+	</welcome-file-list>
+
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
 		<servlet-class>jakarta.faces.webapp.FacesServlet</servlet-class>
@@ -19,15 +34,13 @@
 			<web-resource-name>Protegido</web-resource-name>
 			<url-pattern>/pedidos/*</url-pattern>
 		</web-resource-collection>
+		<auth-constraint>
+			<role-name>ADMIN</role-name>
+			<role-name>USER</role-name>
+		</auth-constraint>
 	</security-constraint>
 
-	<login-config>
-		<auth-method>FORM</auth-method>
-		<form-login-config>
-			<form-login-page>/Login.xhtml</form-login-page>
-			<form-error-page>/Erro.xhtml?error=true</form-error-page>
-		</form-login-config>
-	</login-config>
+	<!-- Login configuration moved to SecurityConfig.java using @FormAuthenticationMechanismDefinition -->
 
 	<security-role>
 		<role-name>ADMIN</role-name>

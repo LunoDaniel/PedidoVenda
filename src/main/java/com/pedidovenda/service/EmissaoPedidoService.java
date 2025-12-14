@@ -3,11 +3,13 @@ package com.pedidovenda.service;
 import com.pedidovenda.exceptions.NegocioException;
 import com.pedidovenda.model.Pedido;
 import com.pedidovenda.model.StatusPedido;
-import com.pedidovenda.repository.PedidoRepository;
-import jakarta.transaction.Transactional;
+import com.pedidovenda.repository.data.PedidoDataRepository;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
-public class EmissaoPedidoService {
+import java.io.Serializable;
+
+public class EmissaoPedidoService implements Serializable {
 
 	@Inject
 	private CadastroPedidoService cadastroPedidoService;
@@ -16,7 +18,7 @@ public class EmissaoPedidoService {
 	private EstoqueService estoqueSerice;
 
 	@Inject
-	private PedidoRepository pedidos;
+	private PedidoDataRepository pedidos;
 
 	@Transactional
 	public Pedido emitir(Pedido pedido) {
@@ -29,7 +31,7 @@ public class EmissaoPedidoService {
 		this.estoqueSerice.baixarItensEstoque(pedido);
 
 		pedido.setStatus(StatusPedido.EMITIDO);
-		return pedidos.guardar(pedido);
+		return pedidos.save(pedido);
 	}
 
 }

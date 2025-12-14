@@ -1,7 +1,7 @@
 package com.pedidovenda.converter;
 
 import com.pedidovenda.model.Usuario;
-import com.pedidovenda.repository.UsuarioRepository;
+import com.pedidovenda.repository.data.UsuarioDataRepository;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;
@@ -12,11 +12,11 @@ import jakarta.inject.Inject;
 public class UsuarioConverter implements Converter<Usuario> {
 
 	@Inject
-	private UsuarioRepository usuarioRepository;
+	private UsuarioDataRepository usuarioRepository;
 
 	@Override
 	public Usuario getAsObject(FacesContext context, UIComponent component, String value) {
-		return (value != null) ? usuarioRepository.getById(Long.valueOf(value)) : null;
+		return usuarioRepository.findById(Long.valueOf(value)).orElse(null);
 	}
 	
 	@Override

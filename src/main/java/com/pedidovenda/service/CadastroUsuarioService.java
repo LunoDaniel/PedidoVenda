@@ -2,26 +2,28 @@ package com.pedidovenda.service;
 
 import com.pedidovenda.exceptions.NegocioException;
 import com.pedidovenda.model.Usuario;
-import com.pedidovenda.repository.UsuarioRepository;
-import jakarta.transaction.Transactional;
+import com.pedidovenda.repository.data.UsuarioDataRepository;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
+
+import java.io.Serializable;
 
 import static com.pedidovenda.util.security.Md5PasswordEncoder.encodePassword;
 
-public class CadastroUsuarioService {
+public class CadastroUsuarioService implements Serializable {
 
 	@Inject
-	private UsuarioRepository usuarios;
+	private UsuarioDataRepository usuarios;
 
 	@Transactional
 	public Usuario salvar(Usuario usuario) {
-		Usuario usuarioExistente = (usuario.getId() != null) ? usuarios.getById(usuario.getId()) : null;
+		Usuario usuarioExistente = usuarios.findById(usuario.getId()).orElse(null);
 
 		if (usuarioExistente != null && !usuarioExistente.equals(usuario)) {
 			throw new NegocioException("Já existe um Usuario com esses dados.");
 		}
 
-		return usuarios.guardar(encriptedUser(usuario));
+		return usuarios.save(encriptedUser(usuario));
 	}
 
 	public Usuario encriptedUser(Usuario usuario) {

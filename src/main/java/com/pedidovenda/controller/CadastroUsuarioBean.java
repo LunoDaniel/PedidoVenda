@@ -2,28 +2,36 @@ package com.pedidovenda.controller;
 
 import com.pedidovenda.model.Grupo;
 import com.pedidovenda.model.Usuario;
-import com.pedidovenda.repository.GruposRepository;
+import com.pedidovenda.repository.data.GrupoDataRepository;
 import com.pedidovenda.service.CadastroUsuarioService;
 import com.pedidovenda.util.jsf.FacesUtil;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@ViewScoped
 @Named
-public class CadastroUsuarioBean {
+@ViewScoped
+@AllArgsConstructor
+public class CadastroUsuarioBean implements Serializable {
 
 	@Inject
 	private CadastroUsuarioService usuarioService;
 
 	@Inject
-	private GruposRepository gruposRepository;
+	private GrupoDataRepository gruposRepository;
 
+    @Getter @Setter
 	private List<Grupo> grupos;
+    @Getter @Setter
 	private Usuario usuario;
+    @Getter @Setter
 	private List<Grupo> gruposSelecionados = new ArrayList<>();
 
 	public CadastroUsuarioBean() {
@@ -32,7 +40,7 @@ public class CadastroUsuarioBean {
 	}
 
 	public void inicializar() {
-		grupos = gruposRepository.findAll();
+		grupos = gruposRepository.findAllByOrderByNome();
 	}
 
 	public void salvar() {
@@ -44,33 +52,4 @@ public class CadastroUsuarioBean {
 		}
 
 	}
-	
-	public List<Grupo> getGrupos() {
-		return grupos;
-	}
-
-	public void setGrupos(List<Grupo> grupos) {
-		this.grupos = grupos;
-	}
-
-	public Usuario getUsuario() {
-		return this.usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-
-	public boolean isEditando() {
-		return this.usuario.getId() != null;
-	}
-	
-	public List<Grupo> getGruposSelecionados() {
-		return this.gruposSelecionados;
-	}
-
-	public void setGruposSelecionados(List<Grupo> gruposSelecionados) {
-		this.gruposSelecionados = gruposSelecionados;
-	}
-
 }

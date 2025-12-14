@@ -1,34 +1,26 @@
 package com.pedidovenda.controller;
 
-import com.pedidovenda.model.Usuario;
-import com.pedidovenda.repository.PedidoRepository;
+import com.pedidovenda.repository.data.PedidoDataRepository;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import org.primefaces.model.chart.CartesianChartModel;
-import org.primefaces.model.chart.ChartSeries;
-import org.primefaces.model.chart.LineChartModel;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Map;
 
 
 @Named
 @RequestScoped
-public class GraficosPedidosCriadosBean implements Serializable{
-	private static final long serialVersionUID = 1L;
+public class GraficosPedidosCriadosBean implements Serializable {
 
 	private static DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM");
 	
 	@Inject
-	private PedidoRepository pedidos;
+	private PedidoDataRepository pedidos;
 
-	private CartesianChartModel modelChart;
-	
+	//private CartesianChartModel modelChart;
+	/*
 	public void preRender(){
 		this.modelChart = new LineChartModel();
 		this.modelChart.setTitle("Pedidos");
@@ -53,5 +45,8 @@ public class GraficosPedidosCriadosBean implements Serializable{
 	public CartesianChartModel getModelChart() {
 		return modelChart;
 	}
+	 * 
+	 */
+	
 
 }

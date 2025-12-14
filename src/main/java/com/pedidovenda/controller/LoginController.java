@@ -12,11 +12,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @Named
 @RequestScoped
-public class LoginController {
+public class LoginController implements Serializable {
     
     private String email;
     private String senha;

@@ -1,6 +1,20 @@
 package com.pedidovenda.model;
 
-import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -8,10 +22,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @Entity
@@ -48,7 +58,7 @@ public class Cliente {
 	private String documentoReceitaFederal;
 
 	@Transient
-	public boolean isPessoaFisica(){
-		return  (this.getTipoPessoa() != null && this.tipoPessoa.equals(TipoPessoa.FISICA));
+	public boolean isPessoaFisica() {
+		return TipoPessoa.isPessoaFisica(this.tipoPessoa);
 	}
 }

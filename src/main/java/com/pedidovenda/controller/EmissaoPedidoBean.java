@@ -13,8 +13,7 @@ import java.io.Serializable;
 
 @Named
 @RequestScoped
-public class EmissaoPedidoBean implements Serializable{
-	private static final long serialVersionUID = 1L;
+public class EmissaoPedidoBean implements Serializable {
 	
 	@Inject
 	private EmissaoPedidoService emissaoPedidoService;

@@ -7,10 +7,11 @@ import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 
+import java.io.Serializable;
 import java.util.Properties;
 
 @ApplicationScoped
-public class EmailService {
+public class EmailService implements Serializable {
 
     @Inject
     private EmailConfig config;

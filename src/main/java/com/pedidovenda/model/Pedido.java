@@ -49,12 +49,10 @@ public class Pedido {
 	private FormaPagamento formaPagamento;
 
 	@NotNull
-	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "data_criacao", nullable = false)
 	private LocalDateTime dataCriacao;
 
 	@NotNull
-	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "data_entrega", nullable = false)
 	private LocalDateTime dataEntrega;
 

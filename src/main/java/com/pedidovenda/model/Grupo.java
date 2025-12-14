@@ -2,8 +2,6 @@ package com.pedidovenda.model;
 
 import jakarta.persistence.*;
 
-import java.io.Serializable;
-
 @Entity
 @Table(name = "grupo")
 public class Grupo {

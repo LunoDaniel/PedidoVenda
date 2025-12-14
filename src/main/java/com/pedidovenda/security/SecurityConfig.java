@@ -14,7 +14,7 @@ import jakarta.security.enterprise.identitystore.Pbkdf2PasswordHash;
     )
 )
 @DatabaseIdentityStoreDefinition(
-    dataSourceLookup = "java:/jdbc/pedidoVendaDS",
+    dataSourceLookup = "java:comp/env/jdbc/PedidoVendaDS",
     callerQuery = "SELECT senha FROM usuario WHERE email = ?",
     groupsQuery = "SELECT u.grupo FROM usuario u WHERE u.email = ?",
     hashAlgorithm = Pbkdf2PasswordHash.class,

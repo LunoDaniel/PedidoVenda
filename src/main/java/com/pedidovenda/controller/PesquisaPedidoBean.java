@@ -1,62 +1,44 @@
 package com.pedidovenda.controller;
 
 import com.pedidovenda.model.Pedido;
-import com.pedidovenda.model.StatusPedido;
-import com.pedidovenda.repository.PedidoRepository;
+import com.pedidovenda.repository.data.PedidoDataRepository;
 import com.pedidovenda.repository.filter.PedidoFilter;
 import com.pedidovenda.util.jsf.FacesUtil;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
 @Named
 @ViewScoped
-public class PesquisaPedidoBean implements Serializable{
-	private static final long serialVersionUID = 1L;
+public class PesquisaPedidoBean implements Serializable {
 
 	@Inject
-	PedidoRepository pedidos;
-	PedidoFilter filtro;
-	Pedido pedidoSelecionado;
-	
-	public void setPedidoSelecionado(Pedido pedidoSelecionado) {
-		this.pedidoSelecionado = pedidoSelecionado;
-	}
+    private PedidoDataRepository pedidos;
+	private PedidoFilter filtro;
+	private Pedido pedidoSelecionado;
 
 	private List<Pedido> pedidosFiltrados;
 	
-	public PesquisaPedidoBean(){
+	public PesquisaPedidoBean() {
 		filtro = new PedidoFilter();
 		pedidosFiltrados = new ArrayList<>();
 	}
 	
 	public void pesquisar(){
-		pedidosFiltrados = pedidos.filtrados(filtro);
+		pedidosFiltrados = pedidos.byFilter(filtro);
 	}
 	
 	public void remover(){
-		pedidos.remover(pedidoSelecionado);
+		pedidos.delete(pedidoSelecionado);
 		FacesUtil.addInfoMessage("Pedido: " + pedidoSelecionado.getId() + " Removido com Sucesso.");
-	}
-	
-	public StatusPedido[] getStatuses(){
-		return StatusPedido.values();
-	}
-	
-	public List<Pedido> getPedidosFiltrados() {
-		return pedidosFiltrados;
-	}
-	
-	public PedidoFilter getFiltro() {
-		return filtro;
-	}
-	
-	public Pedido getPedidoSelecionado() {
-		return pedidoSelecionado;
 	}
 
 	

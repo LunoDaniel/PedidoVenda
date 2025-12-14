@@ -9,8 +9,10 @@ import jakarta.security.enterprise.identitystore.IdentityStoreHandler;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.io.Serializable;
+
 @ApplicationScoped
-public class AuthService {
+public class AuthService implements Serializable {
 
     @Inject
     private IdentityStoreHandler identityStoreHandler;

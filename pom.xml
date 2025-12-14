@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.lunobatista</groupId>
@@ -8,51 +9,55 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<jakartaee.version>10.0.0</jakartaee.version>
+		<primefaces.version>13.0.0</primefaces.version>
 		<maven.compiler.source>21</maven.compiler.source>
 		<maven.compiler.target>21</maven.compiler.target>
 	</properties>
 
 	<dependencies>
-		<!-- Jakarta EE 11 (versões mais recentes) -->
+		<!-- Jakarta EE 10 (versões mais recentes) -->
 		<dependency>
 			<groupId>jakarta.platform</groupId>
 			<artifactId>jakarta.jakartaee-api</artifactId>
-			<version>10.0.0</version>
+			<version>${jakartaee.version}</version>
 			<scope>provided</scope>
-		</dependency>
-		<!-- JSF Implementation (MyFaces ou Mojarra) -->
-		<dependency>
-			<groupId>org.apache.myfaces.core</groupId>
-			<artifactId>myfaces-impl</artifactId>
-			<version>4.0.2</version>
-			<scope>provided</scope>
-		</dependency>
-		<!-- JSF 4.0 (Jakarta) -->
-		<dependency>
-			<groupId>jakarta.faces</groupId>
-			<artifactId>jakarta.faces-api</artifactId>
-			<version>4.0.0</version>
 		</dependency>
 
-		<!-- PrimeFaces 12+ (compatível com JSF 4) -->
 		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
-			<version>12.0.0</version>
+			<version>${primefaces.version}</version>
 		</dependency>
 
-		<!-- Hibernate 6.x (Jakarta) -->
+		<!-- MySQL Driver para Liberty -->
+		<dependency>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<version>8.0.33</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- Jakarta Data API -->
+		<dependency>
+			<groupId>jakarta.data</groupId>
+			<artifactId>jakarta.data-api</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
+		<!-- Hibernate ORM for Jakarta EE 10 -->
 		<dependency>
 			<groupId>org.hibernate.orm</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<version>6.4.4.Final</version>
 		</dependency>
 
-		<!-- Driver do Banco de Dados (ex: MySQL) -->
+		<!-- Hibernate Jakarta Data implementation -->
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.33</version>
+			<groupId>org.hibernate.orm</groupId>
+			<artifactId>hibernate-jpamodelgen</artifactId>
+			<version>6.4.4.Final</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -84,6 +89,18 @@
 			<artifactId>thymeleaf</artifactId>
 			<version>3.1.2.RELEASE</version>
 		</dependency>
+		<!-- need to hibernate jpamodelgen-->
+		<dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>antlr4-runtime</artifactId>
+			<version>4.13.2</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/jakarta.xml.bind/jakarta.xml.bind-api -->
+		<dependency>
+			<groupId>jakarta.xml.bind</groupId>
+			<artifactId>jakarta.xml.bind-api</artifactId>
+			<version>4.0.4</version>
+		</dependency>
 	</dependencies>
 
 	<repositories>
@@ -98,32 +115,22 @@
 		<plugins>
 			<!-- 1. Plugin para compilar com Java 21 -->
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.11.0</version>
-				<configuration>
-					<release>21</release>  <!-- Versão do Java -->
-					<encoding>UTF-8</encoding>
-					<showWarnings>true</showWarnings>
-					<showDeprecation>true</showDeprecation>
-					<annotationProcessorPaths>
-						<path>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-							<version>1.18.38</version>
-						</path>
-					</annotationProcessorPaths>
-				</configuration>
-			</plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+      </plugin>
 
-			<!-- 2. Plugin para empacotar o .war (incluindo dependências) -->
+			<!-- 2. Plugin para empacotar o .war -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>3.3.2</version>
 				<configuration>
-					<failOnMissingWebXml>false</failOnMissingWebXml>  <!-- Opcional: se não usar web.xml -->
-					<packagingIncludes>WEB-INF/**, META-INF/**</packagingIncludes>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+					<packagingExcludes>
+						WEB-INF/lib/jakarta.servlet-api-*.jar,
+						WEB-INF/lib/jakarta.faces-*.jar,
+						WEB-INF/lib/jakarta.persistence-*.jar
+					</packagingExcludes>
 					<webResources>
 						<resource>
 							<directory>src/main/webapp</directory>
@@ -138,33 +145,18 @@
 				</configuration>
 			</plugin>
 
-			<!-- 3. Plugin para copiar dependências (opcional, para Liberty) -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>3.6.0</version>
-
-				<executions>
-					<execution>
-						<id>copy-dependencies</id>
-						<phase>package</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.build.directory}/liberty/libs</outputDirectory>
-							<includeScope>runtime</includeScope>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+			<!-- 3. Plugin Liberty Maven para dev mode -->
 			<plugin>
 				<groupId>io.openliberty.tools</groupId>
 				<artifactId>liberty-maven-plugin</artifactId>
 				<version>3.8.2</version>
 				<configuration>
-					<serverName>PedidoVendaServer</serverName>
-					<configFile>src/main/liberty/config/server.xml</configFile>
+					<runtimeArtifact>
+						<groupId>io.openliberty</groupId>
+						<artifactId>openliberty-runtime</artifactId>
+						<version>23.0.0.12</version>
+						<type>zip</type>
+					</runtimeArtifact>
 				</configuration>
 			</plugin>
 		</plugins>

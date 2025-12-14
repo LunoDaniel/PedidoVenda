@@ -1,7 +1,7 @@
 package com.pedidovenda.controller;
 
 import com.pedidovenda.model.Produto;
-import com.pedidovenda.repository.ProdutoRepository;
+import com.pedidovenda.repository.data.ProdutoDataRepository;
 import com.pedidovenda.repository.filter.ProdutoFilter;
 import com.pedidovenda.util.jsf.FacesUtil;
 import jakarta.faces.view.ViewScoped;
@@ -14,12 +14,11 @@ import java.util.List;
 @Named
 @ViewScoped
 public class PesquisaProdutoBean implements Serializable{
-	private static final long serialVersionUID = 1L;
-	
-	@Inject
-	private ProdutoRepository produtos;
-	
-	private List<Produto> produtosFiltrados;
+
+
+    @Inject
+    private ProdutoDataRepository produtos;
+    private List<Produto> produtosFiltrados;
 	private ProdutoFilter filtro; 
 	private Produto produtoSelecionado;
 	private Produto produto;
@@ -29,14 +28,14 @@ public class PesquisaProdutoBean implements Serializable{
 	}
 	
 	public void remover(){
-		produtos.remover(produtoSelecionado);
+		produtos.delete(produtoSelecionado);
 		
 		FacesUtil.addInfoMessage("Produto: " + produtoSelecionado.getSku() + " Removido com Sucesso.");
 	}
 	
 
 	public void pesquisar(){
-		produtosFiltrados = produtos.filtrados(filtro);
+		produtosFiltrados = produtos.byFilter(filtro);
 	}
 	
 	public ProdutoFilter getFiltro() {

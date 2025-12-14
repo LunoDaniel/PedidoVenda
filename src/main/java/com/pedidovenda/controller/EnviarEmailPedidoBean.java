@@ -8,13 +8,14 @@ import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 
 @Named
 @RequestScoped
-public class EnviarEmailPedidoBean {
+public class EnviarEmailPedidoBean implements Serializable {
 
 	@Inject
 	private EmailService emailService;
