@@ -2,9 +2,11 @@ package com.pedidovenda.controller;
 
 import com.pedidovenda.events.PedidoAlateradoEvent;
 import com.pedidovenda.model.*;
-import com.pedidovenda.repository.data.ClienteDataRepository;
-import com.pedidovenda.repository.data.ProdutoDataRepository;
-import com.pedidovenda.repository.data.UsuarioDataRepository;
+
+import com.pedidovenda.repository.data.ClienteRepository;
+import com.pedidovenda.repository.data.ProdutoRepository;
+import com.pedidovenda.repository.data.UsuarioRepository;
+import com.pedidovenda.repository.filter.ProdutoFilter;
 import com.pedidovenda.service.CadastroPedidoService;
 import com.pedidovenda.util.jsf.FacesUtil;
 import com.pedidovenda.validation.SKU;
@@ -25,13 +27,13 @@ import java.util.List;
 public class CadastroPedidoBean implements Serializable {
 
     @Inject
-    private UsuarioDataRepository usuarios;
+    private UsuarioRepository usuarios;
 
     @Inject
-    private ClienteDataRepository clientes;
+    private ClienteRepository clientes;
 
     @Inject
-    private ProdutoDataRepository produtos;
+    private ProdutoRepository produtos;
 
     @Inject
     CadastroPedidoService cadastroPedidoService;
@@ -91,7 +93,7 @@ public class CadastroPedidoBean implements Serializable {
     }
 
     public List<Produto> completarProdutos(String nome) {
-        return produtos.findByNomeOrSku(nome);
+        return produtos.byFilter(ProdutoFilter.builder().nome(nome).build());
     }
 
     public void carregarProdutoLinhaEditavel() {

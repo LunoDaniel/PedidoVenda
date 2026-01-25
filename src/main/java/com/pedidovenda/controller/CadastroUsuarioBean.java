@@ -2,7 +2,7 @@ package com.pedidovenda.controller;
 
 import com.pedidovenda.model.Grupo;
 import com.pedidovenda.model.Usuario;
-import com.pedidovenda.repository.data.GrupoDataRepository;
+import com.pedidovenda.repository.data.GrupoRepository;
 import com.pedidovenda.service.CadastroUsuarioService;
 import com.pedidovenda.util.jsf.FacesUtil;
 import jakarta.faces.view.ViewScoped;
@@ -25,7 +25,7 @@ public class CadastroUsuarioBean implements Serializable {
 	private CadastroUsuarioService usuarioService;
 
 	@Inject
-	private GrupoDataRepository gruposRepository;
+	private GrupoRepository gruposRepository;
 
     @Getter @Setter
 	private List<Grupo> grupos;

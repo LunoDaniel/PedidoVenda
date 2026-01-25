@@ -1,21 +1,22 @@
 package com.pedidovenda.service;
 
 import com.pedidovenda.model.Pedido;
-import com.pedidovenda.repository.data.PedidoDataRepository;
+import com.pedidovenda.repository.PedidoRepository;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 public class EstoqueService implements Serializable {
 	
 	@Inject
-	private PedidoDataRepository pedidos;
+	private PedidoRepository pedidos;
 
 	
 	@Transactional
 	public void baixarItensEstoque(Pedido pedido) {
-		var pedidoEntity = this.pedidos.findById(pedido.getId());
+		var pedidoEntity = Optional.ofNullable(this.pedidos.find(Pedido.class, pedido.getId()));
 
         pedidoEntity.ifPresent(value -> value.getItens().forEach(item -> {
             item.getProduto().baixarEstoque(item.getQuantidade());
@@ -25,7 +26,7 @@ public class EstoqueService implements Serializable {
 
 
 	public void retornarItensEstoque(Pedido pedido) {
-        var pedidoEntity = this.pedidos.findById(pedido.getId());
+        var pedidoEntity = Optional.ofNullable(this.pedidos.find(Pedido.class, pedido.getId()));
 
         pedidoEntity.ifPresent(value -> value.getItens().forEach(item->{
             item.getProduto().adicionarEstoque(item.getQuantidade());

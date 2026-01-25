@@ -1,7 +1,7 @@
 package com.pedidovenda.converter;
 
 import com.pedidovenda.model.Pedido;
-import com.pedidovenda.repository.data.PedidoDataRepository;
+import com.pedidovenda.repository.PedidoRepository;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;
@@ -12,11 +12,11 @@ import jakarta.inject.Inject;
 public class PedidoConverter implements Converter<Pedido> {
 
 	@Inject
-	private PedidoDataRepository pedidoRepository;
+	private PedidoRepository pedidoRepository;
 
 	@Override
 	public Pedido getAsObject(FacesContext context, UIComponent component, String value) {
-		return pedidoRepository.findById(Long.valueOf(value)).orElse(null);
+		return pedidoRepository.find(Pedido.class, Long.valueOf(value));
 	}
 	
 	@Override

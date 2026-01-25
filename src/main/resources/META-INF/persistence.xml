@@ -12,6 +12,12 @@
         <!-- Adicione suas classes de entidade -->
         <class>com.pedidovenda.model.Usuario</class>
         <class>com.pedidovenda.model.Produto</class>
+        <class>com.pedidovenda.model.Categoria</class>
+        <class>com.pedidovenda.model.Grupo</class>
+        <class>com.pedidovenda.model.Cliente</class>
+        <class>com.pedidovenda.model.Endereco</class>
+        <class>com.pedidovenda.model.ItemPedido</class>
+        <class>com.pedidovenda.model.Pedido</class>
         <!-- Adicione todas as outras classes de entidade -->
 
         <properties>

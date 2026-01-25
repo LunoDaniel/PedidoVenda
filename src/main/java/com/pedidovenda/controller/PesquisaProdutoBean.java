@@ -1,12 +1,13 @@
 package com.pedidovenda.controller;
 
 import com.pedidovenda.model.Produto;
-import com.pedidovenda.repository.data.ProdutoDataRepository;
+import com.pedidovenda.repository.data.ProdutoRepository;
 import com.pedidovenda.repository.filter.ProdutoFilter;
 import com.pedidovenda.util.jsf.FacesUtil;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import lombok.Getter;
 
 import java.io.Serializable;
 import java.util.List;
@@ -17,9 +18,10 @@ public class PesquisaProdutoBean implements Serializable{
 
 
     @Inject
-    private ProdutoDataRepository produtos;
+    private ProdutoRepository produtos;
     private List<Produto> produtosFiltrados;
-	private ProdutoFilter filtro; 
+	@Getter
+    private final ProdutoFilter filtro;
 	private Produto produtoSelecionado;
 	private Produto produto;
 	
@@ -28,7 +30,7 @@ public class PesquisaProdutoBean implements Serializable{
 	}
 	
 	public void remover(){
-		produtos.delete(produtoSelecionado);
+		produtos.remove(produtoSelecionado);
 		
 		FacesUtil.addInfoMessage("Produto: " + produtoSelecionado.getSku() + " Removido com Sucesso.");
 	}
@@ -37,12 +39,8 @@ public class PesquisaProdutoBean implements Serializable{
 	public void pesquisar(){
 		produtosFiltrados = produtos.byFilter(filtro);
 	}
-	
-	public ProdutoFilter getFiltro() {
-		return filtro;
-	}
 
-	public List<Produto> getProdutosFiltrados() {
+    public List<Produto> getProdutosFiltrados() {
 		return produtosFiltrados;
 	}
 	

@@ -1,7 +1,7 @@
 package com.pedidovenda.controller;
 
 import com.pedidovenda.model.Pedido;
-import com.pedidovenda.repository.data.PedidoDataRepository;
+import com.pedidovenda.repository.PedidoRepository;
 import com.pedidovenda.repository.filter.PedidoFilter;
 import com.pedidovenda.util.jsf.FacesUtil;
 import jakarta.faces.view.ViewScoped;
@@ -21,7 +21,7 @@ import java.util.List;
 public class PesquisaPedidoBean implements Serializable {
 
 	@Inject
-    private PedidoDataRepository pedidos;
+    private PedidoRepository pedidos;
 	private PedidoFilter filtro;
 	private Pedido pedidoSelecionado;
 
@@ -37,7 +37,7 @@ public class PesquisaPedidoBean implements Serializable {
 	}
 	
 	public void remover(){
-		pedidos.delete(pedidoSelecionado);
+		pedidos.remove(pedidoSelecionado);
 		FacesUtil.addInfoMessage("Pedido: " + pedidoSelecionado.getId() + " Removido com Sucesso.");
 	}
 

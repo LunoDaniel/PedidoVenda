@@ -4,6 +4,7 @@ import com.pedidovenda.model.StatusPedido;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class PedidoFilter {
@@ -14,5 +15,5 @@ public class PedidoFilter {
 	private LocalDateTime dataCriacaoAte;
 	private String nomeCliente;
 	private String nomeUsuario;
-	private StatusPedido[] statuses;
+	private List<StatusPedido> statuses;
 }

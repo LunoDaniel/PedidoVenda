@@ -2,16 +2,16 @@ package com.pedidovenda.service;
 
 import com.pedidovenda.exceptions.NegocioException;
 import com.pedidovenda.model.Cliente;
-import com.pedidovenda.repository.data.ClienteDataRepository;
-import jakarta.transaction.Transactional;
+import com.pedidovenda.repository.data.ClienteRepository;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 import java.io.Serializable;
 
 public class CadastroClienteService implements Serializable {
 
 	@Inject
-	private ClienteDataRepository clientes;
+	private ClienteRepository clientes;
 
 	@Transactional
 	public Cliente salvar(Cliente cliente) {

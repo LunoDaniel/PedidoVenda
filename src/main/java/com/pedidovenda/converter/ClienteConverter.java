@@ -1,7 +1,7 @@
 package com.pedidovenda.converter;
 
 import com.pedidovenda.model.Cliente;
-import com.pedidovenda.repository.data.ClienteDataRepository;
+import com.pedidovenda.repository.data.ClienteRepository;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;
@@ -12,7 +12,7 @@ import jakarta.inject.Inject;
 public class ClienteConverter implements Converter<Cliente> {
 
 	@Inject
-	private ClienteDataRepository clienteRepository;
+	private ClienteRepository clienteRepository;
 
 	@Override
 	public Cliente getAsObject(FacesContext context, UIComponent component, String value) {

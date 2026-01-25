@@ -1,6 +1,6 @@
 package com.pedidovenda.controller;
 
-import com.pedidovenda.repository.data.PedidoDataRepository;
+import com.pedidovenda.repository.PedidoRepository;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -17,7 +17,7 @@ public class GraficosPedidosCriadosBean implements Serializable {
 	private static DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM");
 	
 	@Inject
-	private PedidoDataRepository pedidos;
+	private PedidoRepository pedidos;
 
 	//private CartesianChartModel modelChart;
 	/*

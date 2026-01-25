@@ -3,7 +3,7 @@ package com.pedidovenda.service;
 
 import com.pedidovenda.exceptions.NegocioException;
 import com.pedidovenda.model.Produto;
-import com.pedidovenda.repository.data.ProdutoDataRepository;
+import com.pedidovenda.repository.data.ProdutoRepository;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
@@ -11,10 +11,14 @@ import java.io.Serializable;
 
 public class CadastroProdutoService implements Serializable {
 
-	@Inject
-	private ProdutoDataRepository produtos;
-	
-	@Transactional
+	private final ProdutoRepository produtos;
+
+    @Inject
+    public CadastroProdutoService(ProdutoRepository produtos) {
+        this.produtos = produtos;
+    }
+
+    @Transactional
 	public Produto salvar(Produto produto) {
 		Produto produtoExistente = produtos.findBySku(produto.getSku());
 		

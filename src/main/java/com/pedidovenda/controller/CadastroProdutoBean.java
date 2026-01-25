@@ -2,7 +2,7 @@ package com.pedidovenda.controller;
 
 import com.pedidovenda.model.Categoria;
 import com.pedidovenda.model.Produto;
-import com.pedidovenda.repository.data.CategoriaDataRepository;
+import com.pedidovenda.repository.data.CategoriaRepository;
 import com.pedidovenda.service.CadastroProdutoService;
 import com.pedidovenda.util.jsf.FacesUtil;
 import jakarta.faces.view.ViewScoped;
@@ -20,7 +20,7 @@ import java.util.List;
 public class CadastroProdutoBean implements Serializable {
 
 	@Inject
-	private CategoriaDataRepository categorias;
+	private CategoriaRepository categorias;
 	
 	@Inject
 	private CadastroProdutoService cadastroProdutoService;

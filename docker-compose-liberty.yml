@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: pedidovenda-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: pedidovenda
+      MYSQL_USER: app_user
+      MYSQL_PASSWORD: app_password
+      MYSQL_CHARSET: utf8mb4
+      MYSQL_COLLATION: utf8mb4_unicode_ci
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - pedidovenda-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  liberty:
+    build:
+      context: ./docker/liberty
+      dockerfile: Dockerfile
+    container_name: pedidovenda-liberty
+    ports:
+      - "9080:9080"
+      - "9443:9443"
+    environment:
+      - JAVA_OPTS=-Xmx512m -Xms256m
+    volumes:
+      - ./target/PedidoVenda-1.0.0-SNAPSHOT.war:/opt/ol/wlp/usr/servers/defaultServer/dropins/PedidoVenda.war:ro
+      - ./docker/liberty/server.xml:/opt/ol/wlp/usr/servers/defaultServer/server.xml:ro
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - pedidovenda-network
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+
+networks:
+  pedidovenda-network:
+    driver: bridge
