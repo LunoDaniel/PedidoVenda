@@ -8,7 +8,7 @@ import jakarta.faces.convert.Converter;
 import jakarta.faces.convert.FacesConverter;
 import jakarta.inject.Inject;
 
-@FacesConverter(value="grupoConverter")
+@FacesConverter(forClass=Grupo.class)
 public class GrupoConverter implements Converter<Grupo> {
 
 	@Inject

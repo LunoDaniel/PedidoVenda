@@ -1,7 +1,7 @@
 package com.pedidovenda.controller;
 
 import com.pedidovenda.repository.PedidoRepository;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat;
 
 
 @Named
-@RequestScoped
+@ViewScoped
 public class GraficosPedidosCriadosBean implements Serializable {
 
 	private static DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM");

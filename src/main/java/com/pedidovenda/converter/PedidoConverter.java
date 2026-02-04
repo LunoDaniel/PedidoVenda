@@ -8,7 +8,7 @@ import jakarta.faces.convert.Converter;
 import jakarta.faces.convert.FacesConverter;
 import jakarta.inject.Inject;
 
-@FacesConverter
+@FacesConverter(forClass = Pedido.class)
 public class PedidoConverter implements Converter<Pedido> {
 
 	@Inject

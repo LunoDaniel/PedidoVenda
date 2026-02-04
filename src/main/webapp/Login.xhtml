@@ -1,28 +1,45 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:h="jakarta.faces.html"
-	  xmlns:f="jakarta.faces.core"
-	        xmlns:p="http://primefaces.org/ui"
-      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
-<h:head>
-	<title>Login</title>
-</h:head>
-<h:body>
-	<h:form>
-		<p:panel header="Login" style="width: 400px; margin: 0 auto;">
-			<p:messages autoUpdate="true"/>
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pt="jakarta.faces.passthrough">
 
-			<p:outputLabel for="email" value="Email:"/>
-			<p:inputText id="email" value="#{loginController.email}"
-						 required="true" label="Email"/>
+<f:view>
+    <h:head>
+        <title>Login</title>
+    </h:head>
 
-			<p:outputLabel for="senha" value="Senha:"/>
-			<p:password id="senha" value="#{loginController.senha}"
-						required="true" label="Senha"/>
+    <h:body>
 
-			<p:commandButton value="Login" action="#{loginController.login}"
-							 ajax="false"/>
-		</p:panel>
-	</h:form>
-</h:body>
+        <h:form id="loginForm">
+
+            <p:panel header="Login" style="width:400px; margin:0 auto;">
+
+                <p:messages autoUpdate="true" globalOnly="true"/>
+
+                <p:outputLabel for="email" value="Email"/>
+                <p:inputText id="email"
+                             value="#{loginController.email}"
+                             required="true"
+                             label="Email"
+                             pt:type="email"/>
+
+                <p:outputLabel for="senha" value="Senha"/>
+                <p:password id="senha"
+                            value="#{loginController.senha}"
+                            required="true"
+                            label="Senha"/>
+
+                <p:commandButton value="Login"
+                                 action="#{loginController.login}"
+                                 ajax="false"
+                                 style="margin-top:10px; width:100%"/>
+
+            </p:panel>
+
+        </h:form>
+
+    </h:body>
+</f:view>
 </html>

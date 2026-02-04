@@ -9,12 +9,10 @@ import jakarta.faces.context.ExternalContext;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.ExceptionQueuedEvent;
 import jakarta.faces.event.ExceptionQueuedEventContext;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.Iterator;
 
-@Slf4j
 public class CustomExceptionHandler extends ExceptionHandlerWrapper {
 	
 	private ExceptionHandler wrapped;
@@ -50,7 +48,7 @@ public class CustomExceptionHandler extends ExceptionHandlerWrapper {
 					FacesUtil.addErrorMessage(negocioException.getMessage());
 				} else {
 					handled = true;
-					log.error("Erro de sistema: " + exception.getMessage(), exception);
+					//log.error("Erro de sistema: " + exception.getMessage(), exception);
 					redirect("/Erro.xhtml");
 				}
 			} finally {

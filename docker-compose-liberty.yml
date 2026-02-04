@@ -31,8 +31,6 @@ services:
     ports:
       - "9080:9080"
       - "9443:9443"
-    environment:
-      - JAVA_OPTS=-Xmx512m -Xms256m
     volumes:
       - ./target/PedidoVenda-1.0.0-SNAPSHOT.war:/opt/ol/wlp/usr/servers/defaultServer/dropins/PedidoVenda.war:ro
       - ./docker/liberty/server.xml:/opt/ol/wlp/usr/servers/defaultServer/server.xml:ro

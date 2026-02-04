@@ -1,51 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
-		 version="5.0">
+<web-app
+        xmlns="https://jakarta.ee/xml/ns/jakartaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+                        https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+        version="6.0">
 
     <display-name>PedidoVenda</display-name>
 
-    <!-- Configuração do DataSource -->
+    <!-- JNDI DataSource (opcional no Liberty, mas correto) -->
     <resource-ref>
-        <description>DataSource para PedidoVenda</description>
         <res-ref-name>jdbc/PedidoVendaDS</res-ref-name>
-        <res-type>javax.sql.DataSource</res-type>
+        <res-type>jakarta.sql.DataSource</res-type>
         <res-auth>Container</res-auth>
-        <res-sharing-scope>Shareable</res-sharing-scope>
     </resource-ref>
 
-	<welcome-file-list>
-		<welcome-file>Home.xhtml</welcome-file>
-	</welcome-file-list>
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>jakarta.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
 
-	<servlet>
-		<servlet-name>Faces Servlet</servlet-name>
-		<servlet-class>jakarta.faces.webapp.FacesServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Faces Servlet</servlet-name>
-		<url-pattern>*.xhtml</url-pattern>
-	</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
 
-	<security-constraint>
-		<web-resource-collection>
-			<web-resource-name>Protegido</web-resource-name>
-			<url-pattern>/pedidos/*</url-pattern>
-		</web-resource-collection>
-		<auth-constraint>
-			<role-name>ADMIN</role-name>
-			<role-name>USER</role-name>
-		</auth-constraint>
-	</security-constraint>
+    <context-param>
+        <param-name>jakarta.faces.PROJECT_STAGE</param-name>
+        <param-value>Development</param-value>
+    </context-param>
 
-	<!-- Login configuration moved to SecurityConfig.java using @FormAuthenticationMechanismDefinition -->
+    <!-- Página inicial -->
+    <welcome-file-list>
+        <welcome-file>Home.xhtml</welcome-file>
+    </welcome-file-list>
 
-	<security-role>
-		<role-name>ADMIN</role-name>
-	</security-role>
-	<security-role>
-		<role-name>USER</role-name>
-	</security-role>
+    <!-- Segurança: deixar para Jakarta Security (@RolesAllowed / @FormAuthenticationMechanismDefinition) -->
+
+    <security-role>
+        <role-name>ADMIN</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>USER</role-name>
+    </security-role>
+
 </web-app>

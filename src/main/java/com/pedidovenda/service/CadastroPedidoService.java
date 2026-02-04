@@ -4,12 +4,15 @@ import com.pedidovenda.exceptions.NegocioException;
 import com.pedidovenda.model.Pedido;
 import com.pedidovenda.model.StatusPedido;
 import com.pedidovenda.repository.PedidoRepository;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+
+@ApplicationScoped
 public class CadastroPedidoService implements Serializable {
 
 	@Inject

@@ -1,5 +1,6 @@
 package com.pedidovenda.converter;
 
+import com.pedidovenda.model.Categoria;
 import com.pedidovenda.model.Usuario;
 import com.pedidovenda.repository.data.UsuarioRepository;
 import jakarta.faces.component.UIComponent;
@@ -8,7 +9,7 @@ import jakarta.faces.convert.Converter;
 import jakarta.faces.convert.FacesConverter;
 import jakarta.inject.Inject;
 
-@FacesConverter
+@FacesConverter(forClass = Categoria.class)
 public class UsuarioConverter implements Converter<Usuario> {
 
 	@Inject

@@ -1,19 +1,25 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="jakarta.faces.core"
-	  xmlns:h="jakarta.faces.html"
-	  xmlns:ui="jakarta.faces.facelets"
-	  xmlns:p="http://primefaces.org/ui"
-	  xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+                xmlns:f="jakarta.faces.core"
+                xmlns:h="jakarta.faces.html"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pt="jakarta.faces.passthrough">
 
-	<p:toolbar style="margin-top:20px;">
-		<p:toolbarGroup>
-			<p:button value="Novo" outcome="/clientes/CadastroCliente" />
-			<p:commandButton id="botaoSalvar" value="Salvar"
-				action="#{cadastroClienteBean.salvar}" />
-		</p:toolbarGroup>
-		<p:toolbarGroup align="right">
-			<p:button value="Pesquisa" outcome="/clientes/PesquisaCliente" />
-		</p:toolbarGroup>
-	</p:toolbar>
+    <p:toolbar style="margin-top:20px;">
+        <p:toolbarGroup>
+            <p:button value="Novo"
+                      outcome="/clientes/CadastroCliente"/>
+
+            <p:commandButton id="botaoSalvar"
+                             value="Salvar"
+                             action="#{cadastroClienteBean.salvar}"
+                             process="@form"/>
+        </p:toolbarGroup>
+
+        <p:toolbarGroup align="right">
+            <p:button value="Pesquisa"
+                      outcome="/clientes/PesquisaCliente"/>
+        </p:toolbarGroup>
+    </p:toolbar>
 
 </ui:composition>

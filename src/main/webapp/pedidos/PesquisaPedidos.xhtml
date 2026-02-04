@@ -31,11 +31,11 @@
 
 				<p:outputLabel value="Data de Criação" />
 				<h:panelGroup>
-					<p:calendar size="10" pattern="dd/MM/yyyy"
-						value="#{pesquisaPedidoBean.filtro.dataCriacaoDe}" />
+                    <p:datePicker pattern="dd/MM/yyyy"
+                                  value="#{pesquisaPedidoBean.filtro.dataCriacaoDe}" />
 					a
-					<p:inputText size="10" pattern="dd/MM/yyyy"
-						value="#{pesquisaPedidoBean.filtro.dataCriacaoAte}" />
+                    <p:datePicker pattern="dd/MM/yyyy"
+                                  value="#{pesquisaPedidoBean.filtro.dataCriacaoAte}" />
 				</h:panelGroup>
 
 				<p:outputLabel value="Vendedor" for="usuario" />
@@ -68,7 +68,7 @@
 				</p:column>
 				<p:column headerText="Data de Criação" style="text-align: center;" width="140px">
 					<h:outputText value="#{pedido.dataCriacao}" >
-						<f:convertDateTime pattern="dd/MM/yyyy"/>
+						<f:convertDateTime pattern="dd/MM/yyyy" type="localDate"/>
 					</h:outputText>
 				</p:column>
 				<p:column headerText="Valor Total" style="text-align: right;" width="120px">
@@ -81,13 +81,15 @@
 				</p:column>
 				<p:column headerText="Ação" style="text-align: center;"
 					width="100px">
-					<p:button icon="ui-icon-pencil" title="Editar" outcome="/pedidos/CadastroPedidos" >
-						<f:param name="pedido" value="#{pedido.id}"></f:param>
-					</p:button>
+                    <p:button icon="pi pi-pencil" title="Editar"
+                              outcome="/pedidos/CadastroPedidos">
+                        <f:param name="pedidoId" value="#{pedido.id}" />
+                    </p:button>
 					<p:commandButton icon="ui-icon-trash" title="Excluir" oncomplete="PF('confirmacaoExclusao').show()"
 	    					process="@this" update=":frmPesquisa:confirmacaoExclusaoDialog">
-	    				<f:setPropertyActionListener target="#{pesquisaPedidoBean.pedidoSelecionado}" 
-	    					value="#{produto}" />
+                        <f:setPropertyActionListener
+                                target="#{pesquisaPedidoBean.pedidoSelecionado}"
+                                value="#{pedido}" />
 	    			</p:commandButton>
 				</p:column>
 			</p:dataTable>

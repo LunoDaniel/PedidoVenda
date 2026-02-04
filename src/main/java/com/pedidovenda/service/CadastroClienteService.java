@@ -3,11 +3,13 @@ package com.pedidovenda.service;
 import com.pedidovenda.exceptions.NegocioException;
 import com.pedidovenda.model.Cliente;
 import com.pedidovenda.repository.data.ClienteRepository;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
 import java.io.Serializable;
 
+@ApplicationScoped
 public class CadastroClienteService implements Serializable {
 
 	@Inject

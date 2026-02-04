@@ -4,19 +4,18 @@ package com.pedidovenda.service;
 import com.pedidovenda.exceptions.NegocioException;
 import com.pedidovenda.model.Produto;
 import com.pedidovenda.repository.data.ProdutoRepository;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
 import java.io.Serializable;
 
+@ApplicationScoped
 public class CadastroProdutoService implements Serializable {
 
-	private final ProdutoRepository produtos;
-
     @Inject
-    public CadastroProdutoService(ProdutoRepository produtos) {
-        this.produtos = produtos;
-    }
+	private ProdutoRepository produtos;
+
 
     @Transactional
 	public Produto salvar(Produto produto) {

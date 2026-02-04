@@ -4,15 +4,15 @@ import com.pedidovenda.events.PedidoAlateradoEvent;
 import com.pedidovenda.model.Pedido;
 import com.pedidovenda.service.CancelamentoPedidoService;
 import com.pedidovenda.util.jsf.FacesUtil;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.event.Event;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import java.io.Serializable;
 
 @Named
-@RequestScoped
+@ViewScoped
 public class CancelamentoPedidoBean implements Serializable {
 
 	@Inject

@@ -2,7 +2,6 @@ package com.pedidovenda.controller;
 
 import com.pedidovenda.events.PedidoAlateradoEvent;
 import com.pedidovenda.model.*;
-
 import com.pedidovenda.repository.data.ClienteRepository;
 import com.pedidovenda.repository.data.ProdutoRepository;
 import com.pedidovenda.repository.data.UsuarioRepository;
@@ -17,7 +16,6 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
 import java.util.List;
@@ -126,7 +124,7 @@ public class CadastroPedidoBean implements Serializable {
     }
 
     public void getBySKU() {
-        if (StringUtils.isNotEmpty(this.sku)) {
+        if (this.sku != null) {
             this.produtoLinhaEditavel = this.produtos.findBySku(this.sku);
             this.carregarProdutoLinhaEditavel();
         }

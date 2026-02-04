@@ -2,12 +2,14 @@ package com.pedidovenda.service;
 
 import com.pedidovenda.model.Pedido;
 import com.pedidovenda.repository.PedidoRepository;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
 import java.io.Serializable;
 import java.util.Optional;
 
+@ApplicationScoped
 public class EstoqueService implements Serializable {
 	
 	@Inject

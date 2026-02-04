@@ -3,6 +3,7 @@ package com.pedidovenda.service;
 import com.pedidovenda.exceptions.NegocioException;
 import com.pedidovenda.model.Usuario;
 import com.pedidovenda.repository.data.UsuarioRepository;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
@@ -10,6 +11,7 @@ import java.io.Serializable;
 
 import static com.pedidovenda.util.security.Md5PasswordEncoder.encodePassword;
 
+@ApplicationScoped
 public class CadastroUsuarioService implements Serializable {
 
 	@Inject

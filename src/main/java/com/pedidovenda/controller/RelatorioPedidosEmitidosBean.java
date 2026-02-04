@@ -1,11 +1,6 @@
 package com.pedidovenda.controller;
 
-import jakarta.annotation.Resource;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.context.FacesContext;
-import jakarta.inject.Inject;
-import jakarta.inject.Named;
-import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotNull;
 
@@ -14,22 +9,18 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-@Named
-@RequestScoped
+//@Named
+//@ViewScoped
 public class RelatorioPedidosEmitidosBean implements Serializable {
 
 	private Date dataInicio;
 	private Date dataFim;
 
-	@Inject
+//	@Inject
 	private FacesContext facesContext;
 
-	@Inject
+//	@Inject
 	private HttpServletResponse response;
-
-	@Inject
-    @Resource(lookup = "jdbc/PedidoVendaDS")
-	private EntityManager manager;
 
 	public void emitir() {
 		Map<String, Object> parametros = new HashMap<>();

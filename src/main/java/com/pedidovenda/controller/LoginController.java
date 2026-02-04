@@ -1,9 +1,9 @@
 package com.pedidovenda.controller;
 
 import com.pedidovenda.security.AuthService;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.security.enterprise.AuthenticationException;
@@ -17,7 +17,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Named
-@RequestScoped
+@ViewScoped
 public class LoginController implements Serializable {
     
     private String email;
@@ -28,21 +28,24 @@ public class LoginController implements Serializable {
     
     @Inject
     private FacesContext facesContext;
-    
+
     public String login() {
+        FacesContext fc = FacesContext.getCurrentInstance();
+
         try {
-            HttpServletRequest request = (HttpServletRequest) 
-                facesContext.getExternalContext().getRequest();
-            HttpServletResponse response = (HttpServletResponse)
-                facesContext.getExternalContext().getResponse();
-            
+            HttpServletRequest request =
+                    (HttpServletRequest) fc.getExternalContext().getRequest();
+            HttpServletResponse response =
+                    (HttpServletResponse) fc.getExternalContext().getResponse();
+
             authService.login(email, senha, request, response);
-            
+
             return "/pedidos?faces-redirect=true";
+
         } catch (AuthenticationException e) {
-            facesContext.addMessage(null, 
-                new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-                    "Login falhou", "Email ou senha inválidos"));
+            fc.addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "Login falhou", "Email ou senha inválidos"));
             return null;
         }
     }
