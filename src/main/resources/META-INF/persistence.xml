@@ -1,21 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.0"
-	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+<persistence version="3.0"
+             xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">
 
-	<persistence-unit name="PedidoVendaPU" transaction-type="RESOURCE_LOCAL" >
-		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <persistence-unit name="PedidoVendaPU" transaction-type="JTA">
+        <jta-data-source>jdbc/PedidoVendaDS</jta-data-source>
+        <!-- Remova completamente jta-data-source e configure via properties -->
+        <!-- <jta-data-source>jdbc/PedidoVendaDS</jta-data-source> -->
 
-		<properties>
-			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/pedido_venda" />
-			<property name="javax.persistence.jdbc.user" value="root" />
-			<property name="javax.persistence.jdbc.password" value="" />
-			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+        <!-- Adicione suas classes de entidade -->
+        <class>com.pedidovenda.model.Usuario</class>
+        <class>com.pedidovenda.model.Produto</class>
+        <class>com.pedidovenda.model.Categoria</class>
+        <class>com.pedidovenda.model.Grupo</class>
+        <class>com.pedidovenda.model.Cliente</class>
+        <class>com.pedidovenda.model.Endereco</class>
+        <class>com.pedidovenda.model.ItemPedido</class>
+        <class>com.pedidovenda.model.Pedido</class>
+        <!-- Adicione todas as outras classes de entidade -->
 
-			<property name="hibernate.hbm2ddl.auto" value="update" />
-			<property name="hibernate.show_sql" value="true" />
-			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect" />
-		</properties>
-	</persistence-unit>
+        <properties>
+            <!-- Configuração do DataSource via JNDI -->
+            <property name="jakarta.persistence.jtaDataSource" value="jdbc/PedidoVendaDS"/>
+            <property name="jakarta.persistence.nonJtaDataSource" value="jdbc/PedidoVendaDS"/>
+
+            <!-- Hibernate specific properties -->
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.use_sql_comments" value="true"/>
+
+            <!-- Jakarta Data support -->
+            <property name="hibernate.jpa.compliance.query" value="true"/>
+            <property name="hibernate.jpa.compliance.transaction" value="true"/>
+
+            <!-- Desabilite enhancer se não estiver usando -->
+            <property name="hibernate.enhancer.enableDirtyTracking" value="false"/>
+            <property name="hibernate.enhancer.enableLazyInitialization" value="false"/>
+
+            <!-- Time zone configuration for LocalDateTime -->
+            <property name="hibernate.jdbc.time_zone" value="America/Sao_Paulo"/>
+
+            <!-- Configurações importantes para Liberty -->
+            <property name="hibernate.transaction.jta.platform"
+                      value="org.hibernate.engine.transaction.jta.platform.internal.WebSphereLibertyJtaPlatform"/>
+
+            <!-- Adie a inicialização do EntityManagerFactory -->
+            <property name="hibernate.jpa.compliance.global_id_generators" value="false"/>
+
+            <!-- Se estiver usando cache, desabilite temporariamente -->
+            <property name="hibernate.cache.use_second_level_cache" value="false"/>
+            <property name="hibernate.cache.use_query_cache" value="false"/>
+        </properties>
+    </persistence-unit>
 
 </persistence>

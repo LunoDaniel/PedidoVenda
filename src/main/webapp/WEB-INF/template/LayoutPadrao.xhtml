@@ -1,83 +1,68 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+      xmlns:f="jakarta.faces.core"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pt="jakarta.faces.passthrough">
 
 <h:head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title><ui:insert name="titulo"> Sistema de Pedidos de Venda </ui:insert></title>
-	<h:outputStylesheet library="css" name="sistema.css"></h:outputStylesheet>
-	<h:outputScript name="jquery.maskMoney.js" library="js" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title><ui:insert name="titulo">Sistema de Pedidos de Venda</ui:insert></title>
+
+    <h:outputStylesheet library="css" name="sistema.css"/>
+    <h:outputStylesheet library="primefaces" name="primeicons/primeicons.css"/>
+
+    <h:outputScript name="jquery.maskMoney.js" library="js" target="head"/>
 </h:head>
 
 <h:body>
-	<p:ajaxStatus styleClass="ajax-status" onsuccess="configurarMoeda()">
-		<f:facet name="start">
-			<h:graphicImage library="images" name="loading.gif" />
-		</f:facet>
-		<f:facet name="complete">
-			<h:outputText value="" />
-		</f:facet>
-	</p:ajaxStatus>
-	<header>
-	<div>
-		<div style="float: left;">
-			<h:link outcome="/Home">
-				<h:graphicImage library="images" name="logo-algaworks-2.png" />
-			</h:link>
-		</div>
+    <p:ajaxStatus styleClass="ajax-status" onsuccess="configurarMoeda()">
+        <f:facet name="start">
+            <p:graphicImage library="images" name="loading.gif" width="32"/>
+            <p:outputLabel value="Processando..." style="margin-left:10px"/>
+        </f:facet>
+    </p:ajaxStatus>
 
-		<div style="float: right; margin-right: 100px;">
-			<span style="float: left; height: 30px; line-height: 30px; margin-right: 60px">
-				Olá #{seguranca.nomeUsuario}
-			</span>
-			<h:form style="dislpay:inline-block; float: right;" >
-				<p:menubar styleClass="menu-sistema">
-					<p:submenu label="Cadastros" rendered="#{seguranca.acessoPermitido}">
-						<p:menuitem value="Clientes" outcome="/clientes/CadastroCliente"/>
-						<p:menuitem value="Usuários" outcome="/usuarios/CadastroUsuario"/>
-						<p:separator />
-						<p:menuitem value="Categorias" />
-						<p:menuitem value="Produtos" outcome="/produtos/PesquisaProduto" />
-					</p:submenu>
-					<p:submenu label="Pedidos">
-						<p:menuitem value="Novo Pedido" outcome="/pedidos/CadastroPedidos"/>
-						<p:menuitem value="Pesquisa Pedido" outcome="/pedidos/PesquisaPedidos"/>
-					</p:submenu>
-					<p:submenu label="Relatórios">
-						<p:menuitem value="Pedidos Emitidos" outcome="/relatorios/RelatorioPedidosEmitidos" />
-					</p:submenu>
-					<p:menuitem value="Sair" url="/j_spring_security_logout"/>
-				</p:menubar>
-			</h:form>
-		</div>
-		<div style="clear: both;"></div>
-	</div>
-	</header>
-	<div id="conteudo">
-		<ui:insert name="corpo" />
-	</div>
+    <p:toolbar styleClass="toolbar-header">
+        <f:facet name="left">
+            <h:link outcome="/Home">
+                <p:graphicImage library="images" name="logo-algaworks-2.png" width="120"/>
+            </h:link>
+        </f:facet>
 
-	<p:separator style="margin-top: 20px;" />
+        <f:facet name="right">
+            <p:outputLabel value="Olá #{seguranca.nomeUsuario}"/>
 
-	<footer>
-	<p>Sistema de Pedido de Vendas</p>
-	</footer>
+            <p:menuButton value="Menu" rendered="#{seguranca.acessoPermitido}">
+                <!-- menus -->
+            </p:menuButton>
+        </f:facet>
+    </p:toolbar>
 
-	<script>
-		function configurarMoeda() {
-			$(".moeda").maskMoney({
-				decimal : ",",
-				thousands : ".",
-				allowZero : true
-			});
-		}
-		$(document).ready(function() {
-			configurarMoeda();
-		});
-	</script>
+    <div class="content-wrapper">
+        <ui:insert name="corpo"/>
+    </div>
+
+    <p:toolbar styleClass="toolbar-footer">
+        <f:facet name="left">
+            <p:outputLabel value="Sistema de Pedido de Vendas © #{java.time.Year.now().value}"/>
+        </f:facet>
+    </p:toolbar>
+
+    <h:outputScript target="body">
+        $(document).ready(function() {
+        configurarMoeda();
+        });
+
+        function configurarMoeda() {
+        $(".moeda").maskMoney({
+        decimal: ",",
+        thousands: ".",
+        allowZero: true
+        });
+        }
+    </h:outputScript>
 </h:body>
 </html>

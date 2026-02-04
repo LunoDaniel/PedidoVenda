@@ -1,36 +1,28 @@
 package com.pedidovenda.controller;
 
-import java.io.Serializable;
-import java.util.List;
-
-import javax.enterprise.event.Observes;
-import javax.enterprise.inject.Produces;
-import javax.faces.bean.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.pedidovenda.events.PedidoAlateradoEvent;
-import com.pedidovenda.model.Cliente;
-import com.pedidovenda.model.EnderecoEntrega;
-import com.pedidovenda.model.FormaPagamento;
-import com.pedidovenda.model.ItemPedido;
-import com.pedidovenda.model.Pedido;
-import com.pedidovenda.model.Produto;
-import com.pedidovenda.model.Usuario;
-import com.pedidovenda.repository.ClienteRepository;
-import com.pedidovenda.repository.ProdutoRepository;
-import com.pedidovenda.repository.UsuarioRepository;
+import com.pedidovenda.model.*;
+import com.pedidovenda.repository.data.ClienteRepository;
+import com.pedidovenda.repository.data.ProdutoRepository;
+import com.pedidovenda.repository.data.UsuarioRepository;
+import com.pedidovenda.repository.filter.ProdutoFilter;
 import com.pedidovenda.service.CadastroPedidoService;
 import com.pedidovenda.util.jsf.FacesUtil;
 import com.pedidovenda.validation.SKU;
+import jakarta.enterprise.event.Observes;
+import jakarta.enterprise.inject.Produces;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.io.Serializable;
+import java.util.List;
 
 @Named
 @ViewScoped
 public class CadastroPedidoBean implements Serializable {
-
-    private static final long serialVersionUID = 1L;
 
     @Inject
     private UsuarioRepository usuarios;
@@ -39,22 +31,26 @@ public class CadastroPedidoBean implements Serializable {
     private ClienteRepository clientes;
 
     @Inject
-    ProdutoRepository produtos;
+    private ProdutoRepository produtos;
 
     @Inject
     CadastroPedidoService cadastroPedidoService;
 
+    @Getter
+    @Setter
     @Produces
     @PedidoEdicao
     private Pedido pedido;
     
+    @Getter
     private List<Usuario> vendedores;
     private Produto produtoLinhaEditavel;
+    @Setter
     private String sku;
     
     public void inicializar() {
         if (FacesUtil.isNotPostback()) {
-            this.vendedores = this.usuarios.findAll();
+            this.vendedores = this.usuarios.findAllByOrderByNome();
             this.pedido.adicionarItemVazio();
             this.recalcularPedido();
         }
@@ -71,7 +67,7 @@ public class CadastroPedidoBean implements Serializable {
     }
 
     public List<Cliente> completarCliente(String name) {
-        return this.clientes.getByName(name);
+        return this.clientes.findByNomeOrEmail(name);
     }
 
     public void limpar() {
@@ -95,7 +91,7 @@ public class CadastroPedidoBean implements Serializable {
     }
 
     public List<Produto> completarProdutos(String nome) {
-        return produtos.getByNome(nome);
+        return produtos.byFilter(ProdutoFilter.builder().nome(nome).build());
     }
 
     public void carregarProdutoLinhaEditavel() {
@@ -128,8 +124,8 @@ public class CadastroPedidoBean implements Serializable {
     }
 
     public void getBySKU() {
-        if (StringUtils.isNotEmpty(this.sku)) {
-            this.produtoLinhaEditavel = this.produtos.porSku(this.sku);
+        if (this.sku != null) {
+            this.produtoLinhaEditavel = this.produtos.findBySku(this.sku);
             this.carregarProdutoLinhaEditavel();
         }
     }
@@ -144,17 +140,6 @@ public class CadastroPedidoBean implements Serializable {
     		}
     	}
     }
-    public Pedido getPedido() {
-        return pedido;
-    }
-
-    public void setPedido(Pedido pedido) {
-        this.pedido = pedido;
-    }
-
-    public List<Usuario> getVendedores() {
-        return vendedores;
-    }
 
     public FormaPagamento[] getFormasPagamento() {
         return FormaPagamento.values();
@@ -164,20 +149,9 @@ public class CadastroPedidoBean implements Serializable {
         return this.pedido.getId() != null;
     }
 
-    public Produto getProdutoLinhaEditavel() {
-        return produtoLinhaEditavel;
-    }
-
-    public void setProdutoLinhaEditavel(Produto produtoLinhaEditavel) {
-        this.produtoLinhaEditavel = produtoLinhaEditavel;
-    }
-
     @SKU
     public String getSku() {
         return sku;
     }
 
-    public void setSku(String sku) {
-        this.sku = sku;
-    }
 }

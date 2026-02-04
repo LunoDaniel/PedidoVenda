@@ -1,5 +1,8 @@
 package com.pedidovenda.model;
 
+import lombok.Getter;
+
+@Getter
 public enum StatusPedido {
 	ORCAMENTO("Orçamento"),
 	EMITIDO("Emitido"),
@@ -9,9 +12,5 @@ public enum StatusPedido {
 	
 	StatusPedido(String descricao) {
 		this.descricao  = descricao;
-	}
-
-	public String getDescricao() {
-		return descricao;
 	}
 }

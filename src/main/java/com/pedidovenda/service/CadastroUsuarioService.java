@@ -1,36 +1,35 @@
 package com.pedidovenda.service;
 
+import com.pedidovenda.exceptions.NegocioException;
+import com.pedidovenda.model.Usuario;
+import com.pedidovenda.repository.data.UsuarioRepository;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
+
 import java.io.Serializable;
 
-import javax.inject.Inject;
+import static com.pedidovenda.util.security.Md5PasswordEncoder.encodePassword;
 
-import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
-
-import com.pedidovenda.model.Usuario;
-import com.pedidovenda.repository.UsuarioRepository;
-import com.pedidovenda.util.jpa.Transactional;
-
+@ApplicationScoped
 public class CadastroUsuarioService implements Serializable {
-
-	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private UsuarioRepository usuarios;
 
 	@Transactional
 	public Usuario salvar(Usuario usuario) {
-		Usuario usuarioExistente = (usuario.getId() != null) ? usuarios.getById(usuario.getId()) : null;
+		Usuario usuarioExistente = usuarios.findById(usuario.getId()).orElse(null);
 
 		if (usuarioExistente != null && !usuarioExistente.equals(usuario)) {
 			throw new NegocioException("Já existe um Usuario com esses dados.");
 		}
 
-		return usuarios.guardar(encriptedUser(usuario));
+		return usuarios.save(encriptedUser(usuario));
 	}
 
 	public Usuario encriptedUser(Usuario usuario) {
-		Md5PasswordEncoder encrypter = new Md5PasswordEncoder();
-		String encriptedPass = (!usuario.getSenha().isEmpty()) ? encrypter.encodePassword(usuario.getSenha(), null)
+		String encriptedPass = (!usuario.getSenha().isEmpty()) ? encodePassword(usuario.getSenha())
 				: usuario.getSenha();
 		usuario.setSenha(encriptedPass);
 		return usuario;

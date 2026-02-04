@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="PedidoVenda Liberty server">
+
+    <featureManager>
+        <feature>jakartaee-10.0</feature>
+    </featureManager>
+
+    <httpEndpoint id="defaultHttpEndpoint"
+                  httpPort="9080"
+                  httpsPort="9443"/>
+
+    <applicationManager autoExpand="true"/>
+
+    <library id="mysql-lib">
+        <fileset dir="${shared.resource.dir}/mysql" includes="*.jar"/>
+    </library>
+
+    <dataSource id="PedidoVendaDS" jndiName="jdbc/PedidoVendaDS">
+        <jdbcDriver libraryRef="mysql-lib"/>
+        <properties databaseName="pedidovenda"
+                    serverName="pedidovenda-mysql"
+                    portNumber="3306"
+                    user="app_user"
+                    password="app_password"/>
+    </dataSource>
+
+    <basicRegistry id="basic" realm="BasicRegistry">
+        <user name="admin" password="admin123"/>
+        <user name="user" password="user123"/>
+        <group name="ADMIN">
+            <member name="admin"/>
+        </group>
+        <group name="USER">
+            <member name="user"/>
+            <member name="admin"/>
+        </group>
+    </basicRegistry>
+
+</server>

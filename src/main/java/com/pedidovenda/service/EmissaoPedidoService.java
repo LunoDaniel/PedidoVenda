@@ -1,16 +1,17 @@
 package com.pedidovenda.service;
 
-import java.io.Serializable;
-
-import javax.inject.Inject;
-
+import com.pedidovenda.exceptions.NegocioException;
 import com.pedidovenda.model.Pedido;
 import com.pedidovenda.model.StatusPedido;
 import com.pedidovenda.repository.PedidoRepository;
-import com.pedidovenda.util.jpa.Transactional;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
+import java.io.Serializable;
+
+@ApplicationScoped
 public class EmissaoPedidoService implements Serializable {
-	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private CadastroPedidoService cadastroPedidoService;
@@ -32,7 +33,7 @@ public class EmissaoPedidoService implements Serializable {
 		this.estoqueSerice.baixarItensEstoque(pedido);
 
 		pedido.setStatus(StatusPedido.EMITIDO);
-		return pedidos.guardar(pedido);
+		return pedidos.save(pedido);
 	}
 
 }

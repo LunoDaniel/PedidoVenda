@@ -1,30 +1,31 @@
 package com.pedidovenda.service;
 
 
+import com.pedidovenda.exceptions.NegocioException;
+import com.pedidovenda.model.Produto;
+import com.pedidovenda.repository.data.ProdutoRepository;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
+
 import java.io.Serializable;
 
-import javax.inject.Inject;
-
-import com.pedidovenda.model.Produto;
-import com.pedidovenda.repository.ProdutoRepository;
-import com.pedidovenda.util.jpa.Transactional;
-
+@ApplicationScoped
 public class CadastroProdutoService implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-
-	@Inject
+    @Inject
 	private ProdutoRepository produtos;
-	
-	@Transactional
+
+
+    @Transactional
 	public Produto salvar(Produto produto) {
-		Produto produtoExistente = produtos.porSku(produto.getSku());
+		Produto produtoExistente = produtos.findBySku(produto.getSku());
 		
 		if (produtoExistente != null && !produtoExistente.equals(produto)) {
 			throw new NegocioException("Já existe um produto com o SKU informado.");
 		}
 		
-		return produtos.guardar(produto);
+		return produtos.save(produto);
 	}
 	
 }

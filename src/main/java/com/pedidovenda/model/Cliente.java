@@ -1,121 +1,64 @@
 package com.pedidovenda.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
-
+@Data
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name="cliente")
-public class Cliente implements Serializable{
-	private static final long serialVersionUID = 1L;
-	
-	private Long id;
-	private List<Endereco> endereco = new ArrayList<>();
-	private TipoPessoa tipoPessoa;
-	private String nome;
-	private String email;
-	private String documentoReceitaFederal;
+public class Cliente {
 
-	@OneToMany(mappedBy = "cliente", cascade=CascadeType.ALL, fetch=FetchType.LAZY, targetEntity=Endereco.class)
-	public List<Endereco> getEndereco() {
-		return endereco;
-	}
-	public void setEndereco(List<Endereco> endereco) {
-		this.endereco = endereco;
-	}
-	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
+
+	@OneToMany(mappedBy = "cliente", cascade= CascadeType.ALL, fetch= FetchType.LAZY, targetEntity=Endereco.class)
+	private List<Endereco> endereco = new ArrayList<>();
+
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(nullable=false, length=16)
-	public TipoPessoa getTipoPessoa() {
-		return tipoPessoa;
-	}
-	public void setTipoPessoa(TipoPessoa tipoPessoa) {
-		this.tipoPessoa = tipoPessoa;
-	}
-	
+	private TipoPessoa tipoPessoa;
+
 	@NotBlank
 	@Column(nullable= false, length=100)
-	public String getNome() {
-		return nome;
-	}
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-	
-	@NotBlank
-	@Column(nullable=false, length=255)
+	private String nome;
+
 	@Email
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	
+	@NotBlank
+	@Column(nullable=false)
+	private String email;
+
+
 	@NotNull @NotBlank
 	@Column(name="doc_receita_federal", length=16, nullable=false)
-	public String getDocumentoReceitaFederal() {
-		return documentoReceitaFederal;
-	}
-	public void setDocumentoReceitaFederal(String documentoReceitaFederal) {
-		this.documentoReceitaFederal = documentoReceitaFederal;
-	}
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Cliente other = (Cliente) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}	
-	
+	private String documentoReceitaFederal;
 
 	@Transient
-	public boolean isPessoaFisica(){
-		return  ((this.getTipoPessoa() != null) ?
-			 this.tipoPessoa.equals(TipoPessoa.FISICA) : false);
+	public boolean isPessoaFisica() {
+		return TipoPessoa.isPessoaFisica(this.tipoPessoa);
 	}
 }

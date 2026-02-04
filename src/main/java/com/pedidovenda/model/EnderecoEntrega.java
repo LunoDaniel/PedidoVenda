@@ -1,80 +1,47 @@
 package com.pedidovenda.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.*;
+
 import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Embeddable
-public class EnderecoEntrega implements Serializable {
-	private static final long serialVersionUID = 1L;
-	
-	private String logradouro;
-	private String numero;
-	private String complemento;
-	private String cidade;
-	private String uf;
-	private String cep;
-	
+public class EnderecoEntrega {
+
 	@NotNull
 	@Size(max=150)
 	@Column(name="entrega_logradouro", nullable=false, length=150)
-	public String getLogradouro() {
-		return logradouro;
-	}
-	public void setLogradouro(String logradouro) {
-		this.logradouro = logradouro;
-	}
-	
+	private String logradouro;
+
 	@NotNull
 	@Size(max=20)
 	@Column(name="entrega_numero", nullable=false, length=20)
-	public String getNumero() {
-		return numero;
-	}
-	public void setNumero(String numero) {
-		this.numero = numero;
-	}
-	
+	private String numero;
+
 	@Size(max=150)
 	@Column(name="entrega_complemento", nullable=true, length=150)
-	public String getComplemento() {
-		return complemento;
-	}
-	public void setComplemento(String complemento) {
-		this.complemento = complemento;
-	}
-	
+	private String complemento;
+
 	@NotNull
 	@Size(max=60)
 	@Column(name="entrega_cidade", nullable=false, length=60)
-	public String getCidade() {
-		return cidade;
-	}
-	public void setCidade(String cidade) {
-		this.cidade = cidade;
-	}
-	
+	private String cidade;
+
 	@NotNull
 	@Size(max=60)
 	@Column(name="entrega_uf", nullable=false, length=60)
-	public String getUf() {
-		return uf;
-	}
-	public void setUf(String uf) {
-		this.uf = uf;
-	}
-	
+	private String uf;
+
 	@NotNull
 	@Size(max=9)
 	@Column(name="entrega_cep", nullable=false, length=9)
-	public String getCep() {
-		return cep;
-	}
-	public void setCep(String cep) {
-		this.cep = cep;
-	}
+	private String cep;
 
 }

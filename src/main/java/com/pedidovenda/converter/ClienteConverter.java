@@ -1,35 +1,27 @@
 package com.pedidovenda.converter;
 
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
-
 import com.pedidovenda.model.Cliente;
-import com.pedidovenda.repository.ClienteRepository;
-import com.pedidovenda.util.cdi.CDIServiceLocator;
+import com.pedidovenda.repository.data.ClienteRepository;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.convert.Converter;
+import jakarta.faces.convert.FacesConverter;
+import jakarta.inject.Inject;
 
 @FacesConverter(forClass=Cliente.class)
-public class ClienteConverter implements Converter {
+public class ClienteConverter implements Converter<Cliente> {
 
+	@Inject
 	private ClienteRepository clienteRepository;
-	
-	public ClienteConverter() {
-		this.clienteRepository = CDIServiceLocator.getBean(ClienteRepository.class);
+
+	@Override
+	public Cliente getAsObject(FacesContext context, UIComponent component, String value) {
+		return clienteRepository.findById(Long.valueOf(value)).orElse(null);
 	}
 	
 	@Override
-	public Object getAsObject(FacesContext context, UIComponent component, String value) {
-		return (value != null) ? clienteRepository.getById(new Long(value)) : null;
-	}
-	
-	@Override
-	public String getAsString(FacesContext context, UIComponent component, Object value) {
-		if(value != null){
-			Cliente cliente = (Cliente) value;
-			return ( cliente.getId() == null ) ? null : cliente.getId().toString();
-		}
-		return  "";
+	public String getAsString(FacesContext context, UIComponent component, Cliente value) {
+		return ( value == null ) ? "" : value.getId().toString();
 	}
 
 }

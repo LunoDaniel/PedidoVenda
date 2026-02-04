@@ -1,108 +1,47 @@
-@CHARSET "utf-8";
-
-h1{
-	font-size: 24px;
-	font-weight: normal;
-	padding: 0px;
-	margin: 0px;
-}
-body {
-	font-size: 12px;
-	font-family: Arial, Helvetica, sans-serif;
-	margin: 0px;
-	font-weight: normal;
+/* Layout */
+.toolbar-header {
+	background-color: #f8f9fa;
+	padding: 1rem;
+	border-bottom: 1px solid #dee2e6;
 }
 
-header{
-	padding: 5px 0px;
-	margin-bottom: 20px;
-	height: 30px;
-	
-	background-color: #545454;
-	color: #fff;
-	
-	box-shadow: 0px 2px 2px #ccc;
-	
+.toolbar-footer {
+	background-color: #f8f9fa;
+	padding: 0.5rem 1rem;
+	border-top: 1px solid #dee2e6;
+	margin-top: 2rem;
 }
 
-header > div {
-	margin-left: 8px;
-}
-footer{
-	padding: 0px 8px;
-	margin-bottom: 10px;
+.content-wrapper {
+	padding: 1.5rem;
+	min-height: calc(100vh - 150px);
 }
 
-#conteudo{
-	padding: 0px 8px;
+/* Menu */
+.menu-button {
+	margin-left: 1rem;
 }
 
-#login-dialog{
-	width: 290px;
-	margin: auto;
-	margin-top: 150px;
+.user-greeting {
+	margin-right: 1rem;
+	line-height: 2.5rem;
 }
-.grid-login{
-	background-color: #f2f2f2;
-	border-radius: 8px;
-	border: 1px solid #ccc;
-	margin-top: 8px;
-	padding: 30px;
-}
-.rotulo{
-	width: 150px;
-}
-.ui-panelgrid td{
-	height: 34px;
-}
-.ajax-status{
+
+/* Loading */
+.ajax-status {
 	position: fixed;
-	top: 55px;
-	right: 10px;
-	width: 35px;
-	height: 35px;
-}
-.ui-selectmanycheckbox td{
-	border-width: 0px !important;
-	padding: 0px !important;
-}
-.ui-selectmanycheckbox td label{
-	padding-right: 10px !important;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 9999;
+	background: rgba(255,255,255,0.9);
+	padding: 1rem;
+	border-radius: 4px;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.produto-tabela input{
-	width: 99%;
-}
-
-.ui-tabs .ui-tabs-panel{
-	padding: 0.5em 0.2em !important;
-}
-
-.ui-tabs{
-	padding: 0px !important;
-}
-
-.ui-tabs .ui-tabs-nav{
-	margin: -1px !important;
-}
-
-.ui-tabs.ui-tabs-top > .ui-tabs-nav{
-	padding: 0px !important;
-}
-.menu-sistema {
-    border: 0px !important;
-    padding: 0px !important;
-    background: none !important;
-}
-
-.menu-sistema .ui-menu-parent > a .ui-menuitem-text, .menu-sistema > .ui-menu-list > .ui-menuitem > a > .ui-menuitem-text {
-    color: #ffffff !important;
-}
-
-.menu-sistema .ui-icon-triangle-1-s {
-    background: url(#{resource['images:seta-para-baixo.png']}) no-repeat;
-}
-
-.ui-state-disable{
-	opacity: .80 !important;
+/* Links */
+.logo-link {
+	display: inline-block;
+	text-decoration: none;
 }

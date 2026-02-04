@@ -1,133 +1,47 @@
 package com.pedidovenda.model;
 
-import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import org.hibernate.validator.constraints.NotBlank;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Builder
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name="endereco")
-public class Endereco implements Serializable{
-	private static final long serialVersionUID = 1L;
-	
-	private Long id;
-	private String logradouro;
-	private String numero;
-	private String complemento;
-	private String cidade;
-	private String uf;
-	private String cep;
-	private Cliente cliente;
+public class Endereco {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	public Long getId() {
-		return id;
-	}
+	@GeneratedValue(strategy= GenerationType.IDENTITY)
+	private Long id;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
 	@NotBlank
 	@Column(nullable=false, length=155)
-	public String getLogradouro() {
-		return logradouro;
-	}
-
-	public void setLogradouro(String logradouro) {
-		this.logradouro = logradouro;
-	}
+	private String logradouro;
 
 	@NotBlank
 	@Column(nullable=false, length=20)
-	public String getNumero() {
-		return numero;
-	}
-
-	public void setNumero(String numero) {
-		this.numero = numero;
-	}
-	
+	private String numero;
 	@Column(length=150)
-	public String getComplemento() {
-		return complemento;
-	}
-
-	public void setComplemento(String complemento) {
-		this.complemento = complemento;
-	}
+	private String complemento;
 
 	@NotBlank
 	@Column(nullable=false, length=60)
-	public String getCidade() {
-		return cidade;
-	}
-
-	public void setCidade(String cidade) {
-		this.cidade = cidade;
-	}
+	private String cidade;
 
 	@NotBlank
 	@Column(nullable=false, length=60)
-	public String getUf() {
-		return uf;
-	}
-
-	public void setUf(String uf) {
-		this.uf = uf;
-	}
+	private String uf;
 
 	@NotBlank
 	@Column(nullable=false, length=12)
-	public String getCep() {
-		return cep;
-	}
-
-	public void setCep(String cep) {
-		this.cep = cep;
-	}
+	private String cep;
 
 	@ManyToOne
 	@JoinColumn(name="cliente_id", nullable=false)
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Endereco other = (Endereco) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
+	private Cliente cliente;
 }

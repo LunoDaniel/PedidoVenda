@@ -1,57 +1,43 @@
 package com.pedidovenda.controller;
 
+import jakarta.faces.context.FacesContext;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.NotNull;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.enterprise.context.RequestScoped;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.Session;
-
-import com.pedidovenda.util.jsf.FacesUtil;
-import com.pedidovenda.util.report.ExecutorRelatorio;
-
-@Named
-@RequestScoped
+//@Named
+//@ViewScoped
 public class RelatorioPedidosEmitidosBean implements Serializable {
-
-	private static final long serialVersionUID = 1L;
 
 	private Date dataInicio;
 	private Date dataFim;
 
-	@Inject
+//	@Inject
 	private FacesContext facesContext;
 
-	@Inject
+//	@Inject
 	private HttpServletResponse response;
-
-	@Inject
-	private EntityManager manager;
 
 	public void emitir() {
 		Map<String, Object> parametros = new HashMap<>();
 		parametros.put("data_inicio", this.dataInicio);
 		parametros.put("data_fim", this.dataFim);
 		
-		ExecutorRelatorio executor = new ExecutorRelatorio("/relatorios/RelatorioPedidosEmitidos.jasper",
-				this.response, parametros, "Pedidos emitidos.pdf");
-		
-		Session session = manager.unwrap(Session.class);
-		session.doWork(executor);
-		
-		if (executor.isRelatorioGerado()) {
-			facesContext.responseComplete();
-		} else {
-			FacesUtil.addErrorMessage("A execução do relatório não retornou dados.");
-		}
+//		ExecutorRelatorio executor = new ExecutorRelatorio("/relatorios/RelatorioPedidosEmitidos.jasper",
+//				this.response, parametros, "Pedidos emitidos.pdf");
+//
+//		Session session = manager.unwrap(Session.class);
+//		session.doWork(executor);
+//
+//		if (executor.isRelatorioGerado()) {
+//			facesContext.responseComplete();
+//		} else {
+//			FacesUtil.addErrorMessage("A execução do relatório não retornou dados.");
+//		}
 	}
 
 	@NotNull

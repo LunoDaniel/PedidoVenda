@@ -1,70 +1,94 @@
 <ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+                xmlns:f="jakarta.faces.core"
+                xmlns:h="jakarta.faces.html"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:o="jakarta.faces.omnifaces">
 
-    <ui:define name="titulo">#{cadastroProdutoBean.editando ? 'Edição de Produto' : 'Novo Produto'}</ui:define>
+    <f:metadata>
+        <o:viewParam name="produtoId"
+                     value="#{cadastroProdutoBean.produtoId}" />
+        <f:event type="preRenderView"
+                 listener="#{cadastroProdutoBean.inicializar}" />
+    </f:metadata>
+
+    <ui:define name="titulo">
+        #{cadastroProdutoBean.editando ? 'Edição de Produto' : 'Novo Produto'}
+    </ui:define>
 
     <ui:define name="corpo">
-        <f:metadata>
-            <o:viewParam name="produto" value="#{cadastroProdutoBean.produto}" />
-           	<f:event listener="#{cadastroProdutoBean.inicializar}" type="preRenderView" ></f:event>
-        </f:metadata>
-
         <h:form>
-            <h1>#{cadastroProdutoBean.editando ? 'Edição de Produto' : 'Novo Produto'}</h1>
-            <p:messages autoUpdate="true" closable="true"></p:messages>
+
+            <h1>
+                #{cadastroProdutoBean.editando ? 'Edição de Produto' : 'Novo Produto'}
+            </h1>
+
+            <p:messages autoUpdate="true" closable="true"/>
+
             <p:toolbar style="margin-top:20px;">
                 <p:toolbarGroup>
-                    <p:button value="Novo" outcome="/produtos/CadastroProduto" />
-                    <p:commandButton id="botaoSalvar" value="Salvar"
-                                     action="#{cadastroProdutoBean.salvar}" />
+                    <p:button value="Novo" outcome="/produtos/CadastroProduto"/>
+                    <p:commandButton value="Salvar"
+                                     action="#{cadastroProdutoBean.salvar}"/>
                 </p:toolbarGroup>
+
                 <p:toolbarGroup align="right">
-                    <p:button value="Pesquisa" outcome="/produtos/PesquisaProduto" />
+                    <p:button value="Pesquisa" outcome="/produtos/PesquisaProduto"/>
                 </p:toolbarGroup>
             </p:toolbar>
 
-            <p:panelGrid columns="2" id="painel"
-                         style="width: 100%; margin-top:20px;" columnClasses="rotulo, campo">
-                <p:outputLabel value="SKU" for="sku" />
-                <p:inputText id="sku" size="20" maxlength="20"
-                             value="#{cadastroProdutoBean.produto.sku}" />
+            <p:panelGrid columns="2" style="margin-top:20px"
+                         columnClasses="rotulo,campo">
 
+                <p:outputLabel value="SKU" for="sku"/>
+                <p:inputText id="sku"
+                             value="#{cadastroProdutoBean.produto.sku}"
+                             maxlength="20"/>
 
-                <p:outputLabel value="Nome" for="nome" />
-                <p:inputText id="nome" size="60" maxlength="80"
-                             value="#{cadastroProdutoBean.produto.nome}" />
- 
+                <p:outputLabel value="Nome" for="nome"/>
+                <p:inputText id="nome"
+                             value="#{cadastroProdutoBean.produto.nome}"
+                             maxlength="80"/>
+
                 <p:outputLabel value="Categoria" for="categoria"/>
-	    		<p:selectOneMenu id="categoria" value="#{cadastroProdutoBean.categoriaPai}" >
-	    			<f:selectItem itemLabel="Selecione a categoria"/>
-	    			<f:selectItems value="#{cadastroProdutoBean.categoriasRaizes}" var="categoria"
-	    				itemValue="#{categoria}" itemLabel="#{categoria.descricao}" />
-	    			<p:ajax event="change" listener="#{cadastroProdutoBean.carregarSubcategorias}" update="subcategoria"/>		
+                <p:selectOneMenu id="categoria"
+                                 value="#{cadastroProdutoBean.categoriaPai}">
+                    <f:selectItem itemLabel="Selecione a categoria"
+                                  noSelectionOption="true"/>
+                    <f:selectItems value="#{cadastroProdutoBean.categoriasRaizes}"
+                                   var="categoria"
+                                   itemValue="#{categoria}"
+                                   itemLabel="#{categoria.descricao}"/>
+                    <p:ajax listener="#{cadastroProdutoBean.carregarSubcategorias}"
+                            update="subcategoria"/>
                 </p:selectOneMenu>
 
-                <p:outputLabel value="Subcategoria" for="subcategoria" />
-                <p:selectOneMenu id="subcategoria" value="#{cadastroProdutoBean.produto.categoria}">
-                    <f:selectItem itemLabel="Selecione a Subcategoria" />
-                    <f:selectItems value="#{cadastroProdutoBean.subcategorias}" var="subcategoria" 
-                    	itemValue="#{subcategoria}" itemLabel="#{subcategoria.descricao}" />
+                <p:outputLabel value="Subcategoria" for="subcategoria"/>
+                <p:selectOneMenu id="subcategoria"
+                                 value="#{cadastroProdutoBean.produto.categoria}">
+                    <f:selectItem itemLabel="Selecione a subcategoria"
+                                  noSelectionOption="true"/>
+                    <f:selectItems value="#{cadastroProdutoBean.subcategorias}"
+                                   var="subcategoria"
+                                   itemValue="#{subcategoria}"
+                                   itemLabel="#{subcategoria.descricao}"/>
                 </p:selectOneMenu>
 
-                <p:outputLabel value="Valor Unitário" for="valorUnitario" />
-                <p:inputText id="valorUnitario" size="10" maxlength="10"
+                <p:outputLabel value="Valor Unitário" for="valorUnitario"/>
+                <p:inputText id="valorUnitario"
                              styleClass="moeda"
                              value="#{cadastroProdutoBean.produto.valorUnitario}">
-                    <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+                    <f:convertNumber minFractionDigits="2"
+                                     maxFractionDigits="2"/>
                 </p:inputText>
 
-                <p:outputLabel value="Estoque" for="estoque" />
-                <p:inputText id="estoque" size="10" maxlength="5"
-                             value="#{cadastroProdutoBean.produto.quantidadeEstoque}" />
+                <p:outputLabel value="Estoque" for="estoque"/>
+                <p:inputText id="estoque"
+                             value="#{cadastroProdutoBean.produto.quantidadeEstoque}"
+                             maxlength="5"/>
             </p:panelGrid>
+
         </h:form>
     </ui:define>
-
 </ui:composition>

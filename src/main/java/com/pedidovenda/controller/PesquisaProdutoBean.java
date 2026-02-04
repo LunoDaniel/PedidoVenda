@@ -1,27 +1,27 @@
 package com.pedidovenda.controller;
 
-import java.io.Serializable;
-import java.util.List;
-
-import javax.faces.bean.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import com.pedidovenda.model.Produto;
-import com.pedidovenda.repository.ProdutoRepository;
+import com.pedidovenda.repository.data.ProdutoRepository;
 import com.pedidovenda.repository.filter.ProdutoFilter;
 import com.pedidovenda.util.jsf.FacesUtil;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import lombok.Getter;
+
+import java.io.Serializable;
+import java.util.List;
 
 @Named
 @ViewScoped
 public class PesquisaProdutoBean implements Serializable{
-	private static final long serialVersionUID = 1L;
-	
-	@Inject
-	private ProdutoRepository produtos;
-	
-	private List<Produto> produtosFiltrados;
-	private ProdutoFilter filtro; 
+
+
+    @Inject
+    private ProdutoRepository produtos;
+    private List<Produto> produtosFiltrados;
+	@Getter
+    private final ProdutoFilter filtro;
 	private Produto produtoSelecionado;
 	private Produto produto;
 	
@@ -30,21 +30,17 @@ public class PesquisaProdutoBean implements Serializable{
 	}
 	
 	public void remover(){
-		produtos.remover(produtoSelecionado);
+		produtos.remove(produtoSelecionado);
 		
 		FacesUtil.addInfoMessage("Produto: " + produtoSelecionado.getSku() + " Removido com Sucesso.");
 	}
 	
 
 	public void pesquisar(){
-		produtosFiltrados = produtos.filtrados(filtro);
-	}
-	
-	public ProdutoFilter getFiltro() {
-		return filtro;
+		produtosFiltrados = produtos.byFilter(filtro);
 	}
 
-	public List<Produto> getProdutosFiltrados() {
+    public List<Produto> getProdutosFiltrados() {
 		return produtosFiltrados;
 	}
 	

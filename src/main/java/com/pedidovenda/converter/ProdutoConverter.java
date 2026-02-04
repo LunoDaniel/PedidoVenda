@@ -1,35 +1,27 @@
 package com.pedidovenda.converter;
 
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
-
 import com.pedidovenda.model.Produto;
-import com.pedidovenda.repository.ProdutoRepository;
-import com.pedidovenda.util.cdi.CDIServiceLocator;
+import com.pedidovenda.repository.data.ProdutoRepository;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.convert.Converter;
+import jakarta.faces.convert.FacesConverter;
+import jakarta.inject.Inject;
 
-@FacesConverter(forClass=Produto.class)
-public class ProdutoConverter implements Converter {
+@FacesConverter(forClass =  Produto.class)
+public class ProdutoConverter implements Converter<Produto> {
 
+	@Inject
 	private ProdutoRepository produtoRepository;
-	
-	public ProdutoConverter() {
-		this.produtoRepository = CDIServiceLocator.getBean(ProdutoRepository.class);
+
+	@Override
+	public Produto getAsObject(FacesContext context, UIComponent component, String value) {
+		return produtoRepository.find(Produto.class, Long.valueOf(value));
 	}
 	
 	@Override
-	public Object getAsObject(FacesContext context, UIComponent component, String value) {
-		return (value != null) ? produtoRepository.getById(new Long(value)) : null;
-	}
-	
-	@Override
-	public String getAsString(FacesContext context, UIComponent component, Object value) {
-		if(value != null){
-			Produto produto = (Produto) value;
-			return ( produto.getId() == null ) ? null : produto.getId().toString();
-		}
-		return  "";
+	public String getAsString(FacesContext context, UIComponent component, Produto produto) {
+		return ( produto.getId() == null ) ? "" : produto.getId().toString();
 	}
 
 }

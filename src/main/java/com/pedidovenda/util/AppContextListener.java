@@ -1,17 +1,13 @@
 package com.pedidovenda.util;
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import javax.servlet.annotation.WebListener;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
+import jakarta.servlet.annotation.WebListener;
 
 @WebListener
 public class AppContextListener implements ServletContextListener {
 
-	@Override
-	public void contextDestroyed(ServletContextEvent event) {
-	}
-
-	@Override
+    @Override
 	public void contextInitialized(ServletContextEvent event) {
 		System.setProperty("org.apache.el.parser.COERCE_TO_ZERO", "false");
 	}

@@ -1,26 +1,14 @@
 package com.pedidovenda.model.vo;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Date;
+import lombok.Data;
 
-public class DataValor implements Serializable{
-	private static final long serialVersionUID = 1L;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+@Data
+public class DataValor {
 	
-	private Date data;
+	private LocalDate data;
 	private BigDecimal valor;
-	
-	public Date getData() {
-		return data;
-	}
-	public void setData(Date data) {
-		this.data = data;
-	}
-	public BigDecimal getValor() {
-		return valor;
-	}
-	public void setValor(BigDecimal valor) {
-		this.valor = valor;
-	}
 
 }

@@ -1,5 +1,8 @@
 package com.pedidovenda.model;
 
+import lombok.Getter;
+
+@Getter
 public enum TipoPessoa {
 	FISICA("Física"),
 	JURIDICA("Jurídica");
@@ -9,8 +12,13 @@ public enum TipoPessoa {
 	TipoPessoa(String descricao){
 		this.descricao = descricao;
 	}
-	public String getDescricao() {
-		return descricao;
+
+	public boolean isPessoaFisica(){
+		return this == FISICA;
+	}
+
+	public static boolean isPessoaFisica(TipoPessoa tipo){
+		return FISICA.equals(tipo);
 	}
 	
 }

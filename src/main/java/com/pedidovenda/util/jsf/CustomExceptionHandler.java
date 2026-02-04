@@ -1,24 +1,19 @@
 package com.pedidovenda.util.jsf;
+
+import com.pedidovenda.exceptions.NegocioException;
+import jakarta.faces.FacesException;
+import jakarta.faces.application.ViewExpiredException;
+import jakarta.faces.context.ExceptionHandler;
+import jakarta.faces.context.ExceptionHandlerWrapper;
+import jakarta.faces.context.ExternalContext;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.event.ExceptionQueuedEvent;
+import jakarta.faces.event.ExceptionQueuedEventContext;
+
 import java.io.IOException;
 import java.util.Iterator;
 
-import javax.faces.FacesException;
-import javax.faces.application.ViewExpiredException;
-import javax.faces.context.ExceptionHandler;
-import javax.faces.context.ExceptionHandlerWrapper;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import javax.faces.event.ExceptionQueuedEvent;
-import javax.faces.event.ExceptionQueuedEventContext;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import com.pedidovenda.service.NegocioException;
-
 public class CustomExceptionHandler extends ExceptionHandlerWrapper {
-
-	private static Log log = LogFactory.getLog(CustomExceptionHandler.class);
 	
 	private ExceptionHandler wrapped;
 	
@@ -32,7 +27,7 @@ public class CustomExceptionHandler extends ExceptionHandlerWrapper {
 	}
 	
 	@Override
-	public void handle() throws FacesException {
+	public void handle() {
 		Iterator<ExceptionQueuedEvent> events = getUnhandledExceptionQueuedEvents().iterator();
 		 
 		while (events.hasNext()) {
@@ -53,7 +48,7 @@ public class CustomExceptionHandler extends ExceptionHandlerWrapper {
 					FacesUtil.addErrorMessage(negocioException.getMessage());
 				} else {
 					handled = true;
-					log.error("Erro de sistema: " + exception.getMessage(), exception);
+					//log.error("Erro de sistema: " + exception.getMessage(), exception);
 					redirect("/Erro.xhtml");
 				}
 			} finally {

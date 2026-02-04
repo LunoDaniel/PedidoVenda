@@ -1,35 +1,47 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+                xmlns:f="jakarta.faces.core"
+                xmlns:h="jakarta.faces.html"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pt="jakarta.faces.passthrough">
 
-	<p:panelGrid columns="4" id="painel"
-		style="width: 100%; margin-top:20px;"
-		columnClasses="rotulo, campo, rotulo, campo">
+    <p:panelGrid columns="4"
+                 style="width:100%; margin-top:20px"
+                 columnClasses="rotulo,campo,rotulo,campo">
 
-		<p:outputLabel value="Nome" for="nome" />
-		<p:inputText id="nome" size="60" maxlength="80"
-			value="#{cadastroClienteBean.cliente.nome}" />
+        <p:outputLabel value="Nome" for="nome"/>
+        <p:inputText id="nome"
+                     value="#{cadastroClienteBean.cliente.nome}"
+                     maxlength="80"/>
 
-		<p:outputLabel value="Tipo Pessoa" for="tipoPessoa" />
-		<p:selectOneRadio id="tipoPessoa"
-			value="#{cadastroClienteBean.cliente.tipoPessoa}">
-			<f:selectItems value="#{cadastroClienteBean.tipoPessoa}"
-				var="tipoPessoa" itemValue="#{tipoPessoa}"
-				itemLabel="#{tipoPessoa.descricao}" />
-			<p:ajax event="change" update="cnpj,cnpjLabel" />
-		</p:selectOneRadio>
-		<p:outputLabel id="cnpjLabel"
-			value="#{cadastroClienteBean.cliente.pessoaFisica ? 'CPF' : 'CNPJ:'}"
-			for="cnpj" />
-		<p:inputMask id="cnpj"
-			mask="#{cadastroClienteBean.cliente.pessoaFisica ? '999.999.999-99' : '99.999.999/9999-99' }"
-			value="#{cadastroClienteBean.cliente.documentoReceitaFederal}" size="24" />
+        <p:outputLabel value="Tipo Pessoa" for="tipoPessoa"/>
+        <p:selectOneRadio id="tipoPessoa"
+                          value="#{cadastroClienteBean.cliente.tipoPessoa}">
+            <f:selectItems
+                    value="#{cadastroClienteBean.tipoPessoa}"
+                    var="tipoPessoa"
+                    itemValue="#{tipoPessoa}"
+                    itemLabel="#{tipoPessoa.descricao}"/>
+            <p:ajax event="change"
+                    process="@this"
+                    update="cnpj cnpjLabel"/>
+        </p:selectOneRadio>
 
-		<p:outputLabel value="Email" for="email" />
-		<p:inputText id="email" size="60" maxlength="60"
-			value="#{cadastroClienteBean.cliente.email}" />
+        <p:outputLabel id="cnpjLabel"
+                       for="cnpj"
+                       value="#{cadastroClienteBean.cliente.pessoaFisica ? 'CPF:' : 'CNPJ:'}"/>
 
-	</p:panelGrid>
+        <p:inputMask id="cnpj"
+                     value="#{cadastroClienteBean.cliente.documentoReceitaFederal}"
+                     mask="#{cadastroClienteBean.cliente.pessoaFisica
+                ? '999.999.999-99'
+                : '99.999.999/9999-99'}"
+                     size="24"/>
+
+        <p:outputLabel value="Email" for="email"/>
+        <p:inputText id="email"
+                     value="#{cadastroClienteBean.cliente.email}"
+                     maxlength="60"/>
+
+    </p:panelGrid>
 </ui:composition>

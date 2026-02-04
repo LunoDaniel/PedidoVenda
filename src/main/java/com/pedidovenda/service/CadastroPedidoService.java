@@ -1,17 +1,19 @@
 package com.pedidovenda.service;
 
-import java.io.Serializable;
-import java.util.Date;
-
-import javax.inject.Inject;
-
+import com.pedidovenda.exceptions.NegocioException;
 import com.pedidovenda.model.Pedido;
 import com.pedidovenda.model.StatusPedido;
 import com.pedidovenda.repository.PedidoRepository;
-import com.pedidovenda.util.jpa.Transactional;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+
+@ApplicationScoped
 public class CadastroPedidoService implements Serializable {
-	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private PedidoRepository pedidos;
@@ -19,7 +21,7 @@ public class CadastroPedidoService implements Serializable {
 	@Transactional
 	public Pedido salvar(Pedido pedido) {
 		if (pedido.isNovo()) {
-			pedido.setDataCriacao(new Date());
+			pedido.setDataCriacao(LocalDateTime.now());
 			pedido.setStatus(StatusPedido.ORCAMENTO);
 		}
 
@@ -38,7 +40,7 @@ public class CadastroPedidoService implements Serializable {
 			throw new NegocioException("Valor Total do Pedido não pode ser Negativo.");
 		}
 
-		return pedidos.guardar(pedido);
+		return pedidos.save(pedido);
 	}
 
 }

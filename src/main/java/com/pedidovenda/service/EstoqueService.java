@@ -1,15 +1,16 @@
 package com.pedidovenda.service;
 
-import java.io.Serializable;
-
-import javax.inject.Inject;
-
 import com.pedidovenda.model.Pedido;
 import com.pedidovenda.repository.PedidoRepository;
-import com.pedidovenda.util.jpa.Transactional;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
-public class EstoqueService implements Serializable{
-	private static final long serialVersionUID = 1L;
+import java.io.Serializable;
+import java.util.Optional;
+
+@ApplicationScoped
+public class EstoqueService implements Serializable {
 	
 	@Inject
 	private PedidoRepository pedidos;
@@ -17,20 +18,21 @@ public class EstoqueService implements Serializable{
 	
 	@Transactional
 	public void baixarItensEstoque(Pedido pedido) {
-		pedido = this.pedidos.getById(pedido.getId());
-		
-		pedido.getItens().forEach(item->{
-			item.getProduto().baixarEstoque(item.getQuantidade());
-		});
+		var pedidoEntity = Optional.ofNullable(this.pedidos.find(Pedido.class, pedido.getId()));
+
+        pedidoEntity.ifPresent(value -> value.getItens().forEach(item -> {
+            item.getProduto().baixarEstoque(item.getQuantidade());
+        }));
+
 	}
 
 
 	public void retornarItensEstoque(Pedido pedido) {
-		pedido = this.pedidos.getById(pedido.getId());
-		
-		pedido.getItens().forEach(item->{
-			item.getProduto().adicionarEstoque(item.getQuantidade());
-		});
+        var pedidoEntity = Optional.ofNullable(this.pedidos.find(Pedido.class, pedido.getId()));
+
+        pedidoEntity.ifPresent(value -> value.getItens().forEach(item->{
+            item.getProduto().adicionarEstoque(item.getQuantidade());
+        }));
 	}
 	
 }

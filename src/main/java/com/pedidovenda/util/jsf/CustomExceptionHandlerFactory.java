@@ -1,9 +1,10 @@
 package com.pedidovenda.util.jsf;
 
-import javax.faces.context.ExceptionHandler;
-import javax.faces.context.ExceptionHandlerFactory;
 
-public class CustomExceptionHandlerFactory extends ExceptionHandlerFactory{
+import jakarta.faces.context.ExceptionHandler;
+import jakarta.faces.context.ExceptionHandlerFactory;
+
+public class CustomExceptionHandlerFactory extends ExceptionHandlerFactory {
 
 	ExceptionHandlerFactory parent;
 	

@@ -1,16 +1,17 @@
 package com.pedidovenda.service;
 
-import java.io.Serializable;
-
-import javax.inject.Inject;
-
+import com.pedidovenda.exceptions.NegocioException;
 import com.pedidovenda.model.Pedido;
 import com.pedidovenda.model.StatusPedido;
 import com.pedidovenda.repository.PedidoRepository;
-import com.pedidovenda.util.jpa.Transactional;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
+import java.io.Serializable;
+
+@ApplicationScoped
 public class CancelamentoPedidoService implements Serializable {
-	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private PedidoRepository pedidos;
@@ -20,7 +21,7 @@ public class CancelamentoPedidoService implements Serializable {
 
 	@Transactional
 	public Pedido cancelar(Pedido pedido) {
-		pedidos.getById(pedido.getId());
+		pedidos.find(Pedido.class, pedido.getId());
 
 		if (pedido.isNaoCancelavel()) {
 			throw new NegocioException(
@@ -32,7 +33,7 @@ public class CancelamentoPedidoService implements Serializable {
 		}
 		pedido.setStatus(StatusPedido.CANCELADO);
 		
-		return this.pedidos.guardar(pedido); 
+		return this.pedidos.save(pedido);
 	}
 
 }
